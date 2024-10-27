@@ -1,17 +1,10 @@
 import React, { useState } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Box from "@mui/material/Box";
 import SideBar from "./SideBar";
-import { Header } from "./Header";
 import { Stack } from "@mui/material";
-import {
-  DRAWER_WIDTH_CLOSED,
-  DRAWER_WIDTH_OPEN,
-  HEADER_HEIGHT,
-} from "../../utils/constant";
+
 import useAuth from "../../hooks/useAuth";
-import { useQuery, useQueryClient } from "react-query";
-import { fetchInitialData } from "../../api/assessorAPI";
 
 const styleLayout = {
   position: "relative",
@@ -41,8 +34,6 @@ const Layout = () => {
 
   return (
     <Box sx={styleLayout}>
-      <Header />
-
       <Stack
         direction="row"
         width="100%"

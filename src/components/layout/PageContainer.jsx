@@ -22,7 +22,9 @@ export const PageContainer = ({
           <Typography variant="h6" fontWeight={600}>
             {titleText}
           </Typography>
-          <Typography variant="body2">{subText}</Typography>
+          <Typography variant="body2" mt={-0.5}>
+            {subText}
+          </Typography>
         </Stack>
         <Stack direction="row" gap={1} alignItems="center">
           {actionButtons}

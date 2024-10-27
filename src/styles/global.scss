@@ -42,3 +42,24 @@ body {
     border-bottom: 2px solid #1a237e;
   }
 }
+
+.livestock-btn {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  align-items: center;
+  min-width: 105px;
+  background-color: #fff;
+  border: 1px solid #d6d7db;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  &:active {
+    background-color: #1976d25c;
+    color: #fff;
+  }
+
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.08);
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.08);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.08);
+}

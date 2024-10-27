@@ -13,7 +13,7 @@ import { AssessorLayout } from "./components/layout/AssessorLayout.jsx";
 import { Missing } from "./pages/404.jsx";
 import { LandTaxLayout } from "./components/layout/LandTaxLayout.jsx";
 import { CashLayout } from "./components/layout/CashLayout.jsx";
-import MyComponent from "./MyComponent.jsx";
+import Heatmap from "./pages/heatmap/Heatmap.jsx";
 
 function App() {
   return (
@@ -25,12 +25,12 @@ function App() {
         {/* <Route element={<RequireAuth />}> */}
         <Route path="/" element={<Layout />}>
           {/* <Route path="/" element={<Navigate to="/assessor" />} /> */}
-          <Route index element={<MyComponent />} />
-          <Route path="heatmap" element={<MyComponent />} />
-          <Route path="approval" element={<MyComponent />} />
-          <Route path="farmers" element={<MyComponent />} />
-          <Route path="announcement" element={<MyComponent />} />
-          <Route path="archived" element={<MyComponent />} />
+          <Route index element={<Heatmap />} />
+          <Route path="heatmap" element={<Heatmap />} />
+          <Route path="approval" element={<Heatmap />} />
+          <Route path="farmers" element={<Heatmap />} />
+          <Route path="announcement" element={<Heatmap />} />
+          <Route path="archived" element={<Heatmap />} />
         </Route>
         {/* </Route> */}
         {/* </Route> */}

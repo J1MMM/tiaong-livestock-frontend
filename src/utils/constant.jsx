@@ -1,6 +1,14 @@
 import { Chip, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
 
+import cow from "../assets/images/cow.png";
+import goat from "../assets/images/goat.png";
+import chicken from "../assets/images/chicken.png";
+import duck from "../assets/images/duck.png";
+import carabao from "../assets/images/carabao.png";
+import pig from "../assets/images/pig.png";
+import horse from "../assets/images/horse.png";
+
 export const HEADER_HEIGHT = "80px";
 export const DRAWER_WIDTH_OPEN = 250;
 export const DRAWER_WIDTH_CLOSED = 60;
@@ -804,3 +812,23 @@ export const BRGY_COOR = {
   Tamisian: { lat: 13.950816017291613, lng: 121.28265446400516 },
   "San Francisco": { lat: 13.889667191150568, lng: 121.35066400613859 },
 };
+
+export const LIVESTOCK = [
+  { name: "Cow", count: 2, img: cow },
+  { name: "Goat", count: 3, img: goat },
+  { name: "Chicken", count: 45, img: chicken },
+  { name: "Duck", count: 34, img: duck },
+  { name: "Carabao", count: 12, img: carabao },
+  { name: "Pig", count: 18, img: pig },
+  { name: "Horse", count: 1, img: horse },
+];
+
+export const MORTALITY = [
+  { name: "Cow", count: 0 },
+  { name: "Goat", count: 0 },
+  { name: "Chicken", count: 23 },
+  { name: "Duck", count: 0 },
+  { name: "Carabao", count: 101 },
+  { name: "Pig", count: 0 },
+  { name: "Horse", count: 1 },
+];

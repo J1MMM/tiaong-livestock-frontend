@@ -11,7 +11,7 @@ import {
   Pin,
   Place,
 } from "@mui/icons-material";
-import { Box, Drawer, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Drawer, Paper, Stack, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.jpg";
 
@@ -77,6 +77,9 @@ export default function SideBar(props) {
           <Typography minWidth={300}>Archived</Typography>
         </Stack>
       </NavLink>
+      <Stack boxSizing="border-box" padding={2} mt={"auto"}>
+        <Button variant="contained">Log out</Button>
+      </Stack>
     </Paper>
   );
 }
