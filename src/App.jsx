@@ -11,20 +11,20 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route element={<PersistLogin />}> */}
-        <Route path="/login" element={<LoginPage />} />
+        <Route element={<PersistLogin />}>
+          <Route path="/login" element={<LoginPage />} />
 
-        {/* <Route element={<RequireAuth />}> */}
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Heatmap />} />
-          <Route path="heatmap" element={<Heatmap />} />
-          <Route path="approval" element={<Heatmap />} />
-          <Route path="farmers" element={<Heatmap />} />
-          <Route path="announcement" element={<Heatmap />} />
-          <Route path="archived" element={<Heatmap />} />
+          <Route element={<RequireAuth />}>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Heatmap />} />
+              <Route path="heatmap" element={<Heatmap />} />
+              <Route path="approval" element={<Heatmap />} />
+              <Route path="farmers" element={<Heatmap />} />
+              <Route path="announcement" element={<Heatmap />} />
+              <Route path="archived" element={<Heatmap />} />
+            </Route>
+          </Route>
         </Route>
-        {/* </Route>
-        </Route> */}
         <Route path="*" element={<Missing />} />
       </Routes>
     </BrowserRouter>
