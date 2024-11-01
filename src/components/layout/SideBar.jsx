@@ -19,7 +19,8 @@ export default function SideBar(props) {
   return (
     <Paper
       sx={{
-        width: 250,
+        width: 200,
+        minWidth: 200,
         display: "flex",
         flexDirection: "column",
         boxSizing: "border-box",

@@ -6,20 +6,11 @@ import carabao from "../assets/images/carabao.png";
 import pig from "../assets/images/pig.png";
 import horse from "../assets/images/horse.png";
 
-export const HEADER_HEIGHT = "80px";
-export const DRAWER_WIDTH_OPEN = 250;
-export const DRAWER_WIDTH_CLOSED = 60;
+import logo from "../assets/images/logo.jpg";
+import { Button, Stack } from "@mui/material";
+
 // export const BASE_URL = "http://192.168.68.111:3500";
 export const BASE_URL = "http://localhost:3500";
-// Role IDs following a pattern for different categories
-const ROLES_LIST = {
-  SuperAdmin: 1000, // Super Administrator
-  Admin: 1100, // Administrator
-  Office1: 2100, // Custom Office 1 (Management)
-  Office2: 2200, // Custom Office 2 (Management)
-  Office3: 2300, // Custom Office 3 (Management)
-  Cashier: 3100, // Cashier role (Operations)
-};
 
 export const ALERT_SEV = {
   error: "error",
@@ -114,4 +105,157 @@ export const MORTALITY = [
   { name: "Carabao", count: 101 },
   { name: "Pig", count: 0 },
   { name: "Horse", count: 1 },
+];
+
+export const DATA_GRID_STYLE = {
+  "& .MuiDataGrid-row": {
+    "&:last-child .MuiDataGrid-cell": {
+      borderBottom: "none", // Remove bottom border from last row
+    },
+  },
+  ".MuiDataGrid-columnHeaderTitleContainer": {
+    bgcolor: "primary.main",
+  },
+
+  ".data-grid-header": {
+    bgcolor: "primary.main",
+    color: "#FFF",
+    ".MuiDataGrid-columnHeaderTitle": {
+      fontWeight: "bold",
+    },
+    "&.MuiDataGrid-root": {
+      border: "none",
+      color: "#FFF",
+    },
+    ".MuiIconButton-sizeSmall": {
+      color: "#FFF",
+    },
+  },
+  border: "none", // Add a border
+};
+
+export const FARMERS_TABLE_COLUMN = [
+  {
+    field: "photo",
+    headerName: "Photo",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    renderCell: (params) => (
+      <Stack justifyContent="center" alignItems="center" height="100%">
+        <img src={logo} style={{ maxWidth: 38 }} alt="img.png" />
+      </Stack>
+    ),
+  },
+  {
+    field: "name",
+    headerName: "Name",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+
+  {
+    field: "sex",
+    headerName: "Sex",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "address",
+    headerName: "Address",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "contact",
+    headerName: "Contact No.",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "birthDate",
+    headerName: "Birth date",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "civilStatus",
+    headerName: "Civil Status",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    align: "center",
+    headerAlign: "center",
+  },
+  {
+    field: "pwd",
+    headerName: "PWD",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    align: "center",
+    headerAlign: "center",
+  },
+  {
+    field: "4psBeneficiary",
+    headerName: "4P's Beneficiary",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    align: "center",
+    headerAlign: "center",
+  },
+  {
+    field: "mainLivelihood",
+    headerName: "Main Livelihood",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "emergencyPhoneNo",
+    headerName: "Emergency Phone No.",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "actions",
+    headerName: "Actions",
+    width: 200,
+    editable: false,
+    headerClassName: "data-grid-header",
+    headerAlign: "center",
+    renderCell: (params) => (
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+        height="100%"
+        gap={1}
+      >
+        <Button
+          variant="contained"
+          color="info"
+          size="small"
+          onClick={() => handleInfoClick(params.row)}
+        >
+          Info
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          onClick={() => handleArchiveClick(params.row)}
+        >
+          Archive
+        </Button>
+      </Stack>
+    ),
+  },
 ];

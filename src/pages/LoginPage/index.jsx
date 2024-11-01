@@ -92,7 +92,7 @@ const LoginPage = () => {
         >
           <img src={logo} style={{ maxWidth: 90 }} />
           <Typography variant="h5" textAlign="center">
-            Tiaong Livestock System Management
+            Tiaong Livestock Management System
           </Typography>
           <TextField
             autoFocus

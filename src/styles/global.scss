@@ -63,3 +63,11 @@ body {
   -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.08);
   -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.08);
 }
+
+.MuiDataGrid-virtualScroller,
+.MuiToolbar-root {
+  border: 1px solid #eee;
+  &.MuiToolbar-root {
+    border-top: none;
+  }
+}

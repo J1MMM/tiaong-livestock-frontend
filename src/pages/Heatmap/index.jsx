@@ -63,10 +63,7 @@ function Heatmap() {
   // }, [map]);
 
   return isLoaded ? (
-    <PageContainer
-      titleText="Livestock Tiaong Heatmap"
-      subText="Livestock Tiaong Heatmap"
-    >
+    <PageContainer>
       <Stack width="100%" height="100%">
         <Box
           border="1px solid #1976D2"
