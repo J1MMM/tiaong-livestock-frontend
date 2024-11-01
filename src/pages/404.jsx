@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 
-export const Missing = () => {
+const Missing = () => {
   return (
     <Box
       display="flex"
@@ -15,3 +15,5 @@ export const Missing = () => {
     </Box>
   );
 };
+
+export default Missing;

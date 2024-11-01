@@ -3,11 +3,11 @@ import { BASE_URL } from "../utils/constant";
 
 export default axios.create({
   baseURL: BASE_URL,
-  withCredentials: false,
+  withCredentials: true,
 });
 
 export const axiosPrivate = axios.create({
   baseURL: BASE_URL,
-  // headers: { "Content-Type": "application/json" },
-  withCredentials: false,
+  headers: { "Content-Type": "application/json" },
+  withCredentials: true,
 });

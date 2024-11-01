@@ -1,62 +1,46 @@
 import React from "react";
 import {
-  Circle,
   GoogleMap,
   HeatmapLayer,
-  Marker,
   Polygon,
-  Polyline,
   useJsApiLoader,
 } from "@react-google-maps/api";
 import { tiaongPolygonCoordinates } from "../../polygon";
-import {
-  Box,
-  Button,
-  IconButton,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { PageContainer } from "../../components/layout/PageContainer";
 import { BRGY_COOR, LIVESTOCK, TIAONG_BRGY } from "../../utils/constant";
 import { setLocFormat } from "../../utils/helper";
-import TableFilterBtn from "../../components/form/table/TableFilterBtn";
 
-const containerStyle = {
-  width: "100%",
-  height: "100%",
-};
-
-const center = {
+const GMAP_CENTER = {
   lat: 13.954276367408628,
   lng: 121.33907651130149,
 };
 
-const allowedBounds = {
-  north: center.lat + 0.07, // Upper bound (slightly north of center)
-  south: center.lat - 0.12, // Lower bound (slightly south of center)
-  west: center.lng - 0.08, // Left bound (slightly west of center)
-  east: center.lng + 0.065, // Right bound (slightly east of center)
+const ALLOWED_BOUNDS = {
+  north: GMAP_CENTER.lat + 0.07, // Upper bound (slightly north of center)
+  south: GMAP_CENTER.lat - 0.12, // Lower bound (slightly south of center)
+  west: GMAP_CENTER.lng - 0.08, // Left bound (slightly west of center)
+  east: GMAP_CENTER.lng + 0.065, // Right bound (slightly east of center)
 };
-const G_MAP_LIB = ["visualization"];
+const GMAP_LIBRARIES = ["visualization"];
+
 function Heatmap() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: import.meta.env.VITE_MAP_API_KEY,
-    libraries: G_MAP_LIB,
+    libraries: GMAP_LIBRARIES,
   });
 
   const [map, setMap] = React.useState(null);
 
   const onLoad = React.useCallback(function callback(map) {
     map.setZoom(12.5);
-    map.setCenter(center);
+    map.setCenter(GMAP_CENTER);
 
     // Optionally restrict the draggable area
     map.setOptions({
       restriction: {
-        latLngBounds: allowedBounds,
+        latLngBounds: ALLOWED_BOUNDS,
         strictBounds: false, // If true, prevents dragging outside bounds
       },
     });
@@ -92,8 +76,11 @@ function Heatmap() {
           overflow="hidden"
         >
           <GoogleMap
-            mapContainerStyle={containerStyle}
-            center={center}
+            mapContainerStyle={{
+              width: "100%",
+              height: "100%",
+            }}
+            center={GMAP_CENTER}
             zoom={12.5}
             onLoad={onLoad}
             onUnmount={onUnmount}
