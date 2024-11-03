@@ -1,10 +1,26 @@
-import cow from "../assets/images/cow.png";
-import goat from "../assets/images/goat.png";
-import chicken from "../assets/images/chicken.png";
-import duck from "../assets/images/duck.png";
-import carabao from "../assets/images/carabao.png";
-import pig from "../assets/images/pig.png";
-import horse from "../assets/images/horse.png";
+// import cow from "../assets/images/cow.png";
+// import goat from "../assets/images/goat.png";
+// import chicken from "../assets/images/chicken.png";
+// import duck from "../assets/images/duck.png";
+// import carabao from "../assets/images/carabao.png";
+// import pig from "../assets/images/pig.png";
+// import horse from "../assets/images/horse.png";
+
+import cow from "../assets/images/cow.gif";
+import goat from "../assets/images/goat.gif";
+import chicken from "../assets/images/chicken.gif";
+import duck from "../assets/images/duck.gif";
+import carabao from "../assets/images/carabao.gif";
+import pig from "../assets/images/pig.gif";
+import horse from "../assets/images/horse.gif";
+
+import cowM from "../assets/images/cow-mortality.webp";
+import goatM from "../assets/images/goat-mortality.webp";
+import chickenM from "../assets/images/chicken-mortality.webp";
+import duckM from "../assets/images/duck-mortality.webp";
+import carabaoM from "../assets/images/carabao-mortality.webp";
+import pigM from "../assets/images/pig-mortality.webp";
+import horseM from "../assets/images/horse-mortality.webp";
 
 import logo from "../assets/images/logo.jpg";
 import { Button, Stack } from "@mui/material";
@@ -98,13 +114,13 @@ export const LIVESTOCK = [
 ];
 
 export const MORTALITY = [
-  { name: "Cow", count: 0 },
-  { name: "Goat", count: 0 },
-  { name: "Chicken", count: 23 },
-  { name: "Duck", count: 0 },
-  { name: "Carabao", count: 101 },
-  { name: "Pig", count: 0 },
-  { name: "Horse", count: 1 },
+  { name: "Cow", count: 2, img: cowM },
+  { name: "Goat", count: 3, img: goatM },
+  { name: "Chicken", count: 45, img: chickenM },
+  { name: "Duck", count: 34, img: duckM },
+  { name: "Carabao", count: 12, img: carabaoM },
+  { name: "Pig", count: 18, img: pigM },
+  { name: "Horse", count: 1, img: horseM },
 ];
 
 export const DATA_GRID_STYLE = {

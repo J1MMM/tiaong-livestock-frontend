@@ -24,7 +24,6 @@ export const TableToolbar = ({ titleText, subText, actionBtn }) => {
         <Typography variant="body2">{subText}</Typography>
       </Stack>
       <Stack direction="row" gap={1} alignItems="center">
-        <TableFilterBtn />
         {actionBtn}
       </Stack>
     </Stack>

@@ -1,8 +1,8 @@
 import React from "react";
 import { PageContainer } from "../../components/layout/PageContainer";
 
-const Archived = () => {
+const Approval = () => {
   return <PageContainer></PageContainer>;
 };
 
-export default Archived;
+export default Approval;

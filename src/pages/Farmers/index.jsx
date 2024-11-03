@@ -1,11 +1,18 @@
 import React from "react";
 import { PageContainer } from "../../components/layout/PageContainer";
-import { DataGrid } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridToolbarContainer,
+  GridToolbarFilterButton,
+  GridToolbarQuickFilter,
+} from "@mui/x-data-grid";
 import { DATA_GRID_STYLE, FARMERS_TABLE_COLUMN } from "../../utils/constant";
 import { TableToolbar } from "../../components/form/table/TableToolbar";
 import { Box, Button, Stack } from "@mui/material";
 import logo from "../../assets/images/logo.jpg";
 import Tab from "../../components/layout/Tab";
+import TableFilterBtn from "../../components/form/table/TableFilterBtn";
+import TableQuickFilter from "../../components/form/table/TableQuickFilter";
 
 const row = {
   id: 1,
@@ -45,6 +52,12 @@ const Farmers = () => {
           <TableToolbar
             titleText="Farmer List"
             subText="Efficiently Manage Farmers' Records"
+            actionBtn={
+              <>
+                <TableFilterBtn />
+                <TableQuickFilter />
+              </>
+            }
           />
         ),
       }}

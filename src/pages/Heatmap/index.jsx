@@ -8,7 +8,12 @@ import {
 import { tiaongPolygonCoordinates } from "../../polygon";
 import { Box, Stack, Typography } from "@mui/material";
 import { PageContainer } from "../../components/layout/PageContainer";
-import { BRGY_COOR, LIVESTOCK, TIAONG_BRGY } from "../../utils/constant";
+import {
+  BRGY_COOR,
+  LIVESTOCK,
+  MORTALITY,
+  TIAONG_BRGY,
+} from "../../utils/constant";
 import { setLocFormat } from "../../utils/helper";
 
 const GMAP_CENTER = {
@@ -47,7 +52,6 @@ function Heatmap() {
 
     setMap(map);
   }, []);
-  console.log(Math.random());
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null);
   }, []);
@@ -63,8 +67,11 @@ function Heatmap() {
   // }, [map]);
 
   return isLoaded ? (
-    <PageContainer>
-      <Stack width="100%" height="100%">
+    <PageContainer
+      titleText="Livestock Tiaong Heatmap"
+      subText="Livestock Tiaong Heatmap"
+    >
+      <Stack width="100%" height="100%" boxSizing="border-box" gap={1}>
         <Box
           border="1px solid #1976D2"
           width="100%"
@@ -108,43 +115,52 @@ function Heatmap() {
           </GoogleMap>
         </Box>
 
-        <Stack
-          direction="row"
-          width="100%"
-          justifyContent="center"
-          gap={2}
-          mt={2}
-        >
-          {LIVESTOCK.map((obj, i) => (
-            <button key={i} variant="outlined" className="livestock-btn">
-              <img style={{ maxWidth: 32 }} src={obj?.img} alt={obj.name} />
-              <Typography variant="body2" fontWeight={600} mt={1}>
-                {obj.name}
-              </Typography>
-              <Typography variant="body2" fontSize={10}>
-                Total: {obj.count}
-              </Typography>
-            </button>
-          ))}
-        </Stack>
-        <Stack
-          direction="row"
-          width="100%"
-          justifyContent="center"
-          gap={2}
-          mt={2}
-        >
-          {LIVESTOCK.map((obj, i) => (
-            <button key={i} variant="outlined" className="livestock-btn">
-              <img style={{ maxWidth: 32 }} src={obj?.img} alt={obj.name} />
-              <Typography variant="body2" fontWeight={600} mt={1}>
-                {obj.name}
-              </Typography>
-              <Typography variant="body2" fontSize={10}>
-                Total: {obj.count}
-              </Typography>
-            </button>
-          ))}
+        <Stack gap={2}>
+          <Stack direction="row" width="100%" justifyContent="center" gap={2}>
+            {LIVESTOCK.map((obj, i) => (
+              <button key={i} variant="outlined" className="livestock-btn">
+                <div className="hover" />
+
+                <img style={{ maxWidth: 42 }} src={obj?.img} alt={obj.name} />
+                <Typography variant="body2" fontWeight={600} mt={1} zIndex={1}>
+                  {obj.name}
+                </Typography>
+                <Typography variant="body2" fontSize={10} zIndex={1}>
+                  Total: {obj.count}
+                </Typography>
+              </button>
+            ))}
+          </Stack>
+          <Stack direction="row" width="100%" justifyContent="center" gap={2}>
+            {MORTALITY.map((obj, i) => (
+              <button
+                key={i}
+                variant="outlined"
+                className="livestock-btn mortality"
+              >
+                <div className="hover" />
+
+                <img style={{ maxWidth: 32 }} src={obj?.img} alt={obj.name} />
+                <Typography
+                  component="span"
+                  variant="body2"
+                  fontWeight={600}
+                  mt={1}
+                  zIndex={1}
+                >
+                  {obj.name}
+                </Typography>
+                <Typography
+                  component="span"
+                  variant="body2"
+                  fontSize={10}
+                  zIndex={1}
+                >
+                  Total: {obj.count}
+                </Typography>
+              </button>
+            ))}
+          </Stack>
         </Stack>
       </Stack>
     </PageContainer>
