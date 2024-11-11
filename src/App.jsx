@@ -13,6 +13,7 @@ import FarmersReports from "./pages/Farmers/FarmersReports.jsx";
 import Approval from "./pages/Approval/index.jsx";
 import Dashboard from "./pages/Dashboard/index.jsx";
 import Announcement from "./pages/Announcement/index.jsx";
+import ApprovalLayout from "./pages/Approval/ApprovalLayout.jsx";
 
 function App() {
   return (
@@ -25,7 +26,10 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<Dashboard />} />
               <Route path="heatmap" element={<Heatmap />} />
-              <Route path="approval" element={<Approval />} />
+              <Route path="approval" element={<ApprovalLayout />}>
+                <Route path="" element={<Approval />} />
+                <Route path="rejected" element={<Approval />} />
+              </Route>
               <Route path="farmers" element={<FarmersLayout />}>
                 <Route path="" element={<Farmers />} />
                 <Route path="archived" element={<FarmersArchived />} />
