@@ -13,27 +13,31 @@ import FarmersReports from "./pages/Farmers/FarmersReports.jsx";
 import Approval from "./pages/Approval/index.jsx";
 import Dashboard from "./pages/Dashboard/index.jsx";
 import Announcement from "./pages/Announcement/index.jsx";
+import ApprovalLayout from "./pages/Approval/ApprovalLayout.jsx";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route element={<PersistLogin />}> */}
-        <Route path="/login" element={<LoginPage />} />
+        <Route element={<PersistLogin />}>
+          <Route path="/login" element={<LoginPage />} />
 
-        {/* <Route element={<RequireAuth />}> */}
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="heatmap" element={<Heatmap />} />
-          <Route path="approval" element={<Approval />} />
-          <Route path="farmers" element={<FarmersLayout />}>
-            <Route path="" element={<Farmers />} />
-            <Route path="archived" element={<FarmersArchived />} />
-            <Route path="reports" element={<FarmersReports />} />
+          <Route element={<RequireAuth />}>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="heatmap" element={<Heatmap />} />
+              <Route path="approval" element={<ApprovalLayout />}>
+                <Route path="" element={<Approval />} />
+                <Route path="rejected" element={<Approval />} />
+              </Route>
+              <Route path="farmers" element={<FarmersLayout />}>
+                <Route path="" element={<Farmers />} />
+                <Route path="archived" element={<FarmersArchived />} />
+                <Route path="reports" element={<FarmersReports />} />
+              </Route>
+              <Route path="announcement" element={<Announcement />} />
+            </Route>
           </Route>
-          <Route path="announcement" element={<Announcement />} />
-          {/* </Route>
-          </Route> */}
         </Route>
         <Route path="*" element={<Missing />} />
       </Routes>

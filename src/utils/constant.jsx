@@ -24,6 +24,7 @@ import horseM from "../assets/images/horse-mortality.webp";
 
 import logo from "../assets/images/logo.jpg";
 import { Button, Stack } from "@mui/material";
+import dayjs from "dayjs";
 
 // export const BASE_URL = "http://192.168.68.111:3500";
 export const BASE_URL = "http://localhost:3500";
@@ -164,7 +165,7 @@ export const FARMERS_TABLE_COLUMN = [
     ),
   },
   {
-    field: "name",
+    field: "fullname",
     headerName: "Name",
     flex: 1,
     editable: false,
@@ -273,5 +274,112 @@ export const FARMERS_TABLE_COLUMN = [
         </Button>
       </Stack>
     ),
+  },
+];
+
+export const APPROVAL_TABLE_COLUMN = [
+  {
+    field: "photo",
+    headerName: "Photo",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    headerAlign: "center",
+    renderCell: (params) => (
+      <Stack justifyContent="center" alignItems="center" height="100%">
+        <img
+          src={params.row?.userImage}
+          style={{
+            maxWidth: 38,
+            borderRadius: "100%",
+            border: "2px solid #007bff",
+          }}
+          alt="img.png"
+        />
+      </Stack>
+    ),
+  },
+  {
+    field: "fullname",
+    headerName: "Name",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    renderCell: (params) => {
+      return `${params?.row?.firstname} ${params?.row?.middlename} ${params?.row?.surname} ${params?.row?.extensionName}`;
+    },
+  },
+
+  {
+    field: "sex",
+    headerName: "Sex",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "barangay",
+    headerName: "Address",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "contactNo",
+    headerName: "Contact No.",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "birthDate",
+    headerName: "Birth date",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    renderCell: (params) => {
+      return dayjs(params?.rows?.birthDate).format("MM/DD/YYYY");
+    },
+  },
+  {
+    field: "civilStatus",
+    headerName: "Civil Status",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    align: "center",
+    headerAlign: "center",
+  },
+  {
+    field: "PWD",
+    headerName: "PWD",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    align: "center",
+    headerAlign: "center",
+  },
+  {
+    field: "_4ps",
+    headerName: "4P's Beneficiary",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    align: "center",
+    headerAlign: "center",
+  },
+  {
+    field: "livelihood",
+    headerName: "Main Livelihood",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "contactPersonToNotifyInCaseEmergency",
+    headerName: "Emergency Phone No.",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
   },
 ];
