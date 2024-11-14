@@ -22,22 +22,22 @@ function App() {
         <Route element={<PersistLogin />}>
           <Route path="/login" element={<LoginPage />} />
 
-          <Route element={<RequireAuth />}>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Dashboard />} />
-              <Route path="heatmap" element={<Heatmap />} />
-              <Route path="approval" element={<ApprovalLayout />}>
-                <Route path="" element={<Approval />} />
-                <Route path="rejected" element={<Approval />} />
-              </Route>
-              <Route path="farmers" element={<FarmersLayout />}>
-                <Route path="" element={<Farmers />} />
-                <Route path="archived" element={<FarmersArchived />} />
-                <Route path="reports" element={<FarmersReports />} />
-              </Route>
-              <Route path="announcement" element={<Announcement />} />
+          {/* <Route element={<RequireAuth />}> */}
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="heatmap" element={<Heatmap />} />
+            <Route path="approval" element={<ApprovalLayout />}>
+              <Route path="" element={<Approval />} />
+              <Route path="rejected" element={<Approval />} />
             </Route>
+            <Route path="farmers" element={<FarmersLayout />}>
+              <Route path="" element={<Farmers />} />
+              <Route path="archived" element={<FarmersArchived />} />
+              <Route path="reports" element={<FarmersReports />} />
+            </Route>
+            <Route path="announcement" element={<Announcement />} />
           </Route>
+          {/* </Route> */}
         </Route>
         <Route path="*" element={<Missing />} />
       </Routes>

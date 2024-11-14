@@ -34,6 +34,8 @@ function InfoModal({ open, onClose, actionButton, row }) {
               src={row?.userImage}
               alt="farmer.png"
               style={{
+                width: "100%",
+                height: "100%",
                 maxWidth: 160,
                 maxHeight: 160,
                 borderRadius: 8,

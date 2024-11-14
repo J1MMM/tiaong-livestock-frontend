@@ -26,7 +26,7 @@ import logo from "../assets/images/logo.jpg";
 import { Button, Stack } from "@mui/material";
 import dayjs from "dayjs";
 
-// export const BASE_URL = "http://192.168.68.111:3500";
+// export const BASE_URL = "http://10.10.30.32:3500";
 export const BASE_URL = "http://localhost:3500";
 
 export const ALERT_SEV = {
@@ -54,10 +54,6 @@ export const TIAONG_BRGY = [
   "Lusacan",
   "Paiisa",
   "Palagaran",
-  "Poblacion I",
-  "Poblacion II",
-  "Poblacion III",
-  "Poblacion IV",
   "Quipot",
   "San Agustin",
   "San Isidro",
@@ -88,10 +84,6 @@ export const BRGY_COOR = {
   Lusacan: { lat: 13.957300026085951, lng: 121.3448346365917 },
   Paiisa: { lat: 13.925901132091386, lng: 121.3502876152325 },
   Palagaran: { lat: 13.938441845689342, lng: 121.34450427792069 },
-  "Poblacion I": { lat: 13.9618, lng: 121.3198 },
-  "Poblacion II": { lat: 13.9643, lng: 121.3212 },
-  "Poblacion III": { lat: 13.9596, lng: 121.3227 },
-  "Poblacion IV": { lat: 13.964, lng: 121.3238 },
   Quipot: { lat: 13.945313268161001, lng: 121.32247235279266 },
   "San Agustin": { lat: 13.93192683405691, lng: 121.33505896118986 },
   "San Isidro": { lat: 13.943779678880102, lng: 121.3335552488652 },
