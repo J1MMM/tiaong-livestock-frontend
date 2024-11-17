@@ -14,6 +14,7 @@ import Approval from "./pages/Approval/index.jsx";
 import Dashboard from "./pages/Dashboard/index.jsx";
 import Announcement from "./pages/Announcement/index.jsx";
 import ApprovalLayout from "./pages/Approval/ApprovalLayout.jsx";
+import RejectedPage from "./pages/Approval/RejectedPage.jsx";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
             <Route path="heatmap" element={<Heatmap />} />
             <Route path="approval" element={<ApprovalLayout />}>
               <Route path="" element={<Approval />} />
-              <Route path="rejected" element={<Approval />} />
+              <Route path="rejected" element={<RejectedPage />} />
             </Route>
             <Route path="farmers" element={<FarmersLayout />}>
               <Route path="" element={<Farmers />} />

@@ -1,11 +1,3 @@
-// import cow from "../assets/images/cow.png";
-// import goat from "../assets/images/goat.png";
-// import chicken from "../assets/images/chicken.png";
-// import duck from "../assets/images/duck.png";
-// import carabao from "../assets/images/carabao.png";
-// import pig from "../assets/images/pig.png";
-// import horse from "../assets/images/horse.png";
-
 import cow from "../assets/images/cow.gif";
 import goat from "../assets/images/goat.gif";
 import chicken from "../assets/images/chicken.gif";
@@ -23,11 +15,40 @@ import pigM from "../assets/images/pig-mortality.webp";
 import horseM from "../assets/images/horse-mortality.webp";
 
 import logo from "../assets/images/logo.jpg";
-import { Button, Stack } from "@mui/material";
+import { Avatar, Badge, Button, Stack, styled } from "@mui/material";
 import dayjs from "dayjs";
 
 // export const BASE_URL = "http://10.10.30.32:3500";
 export const BASE_URL = "http://localhost:3500";
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    backgroundColor: "#44b700",
+    color: "#44b700",
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    "&::after": {
+      position: "absolute",
+      top: -0.6,
+      left: -0.7,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: '""',
+    },
+    "@keyframes ripple": {
+      "0%": {
+        transform: "scale(.8)",
+        opacity: 1,
+      },
+      "100%": {
+        transform: "scale(2.4)",
+        opacity: 0,
+      },
+    },
+  },
+}));
 
 export const ALERT_SEV = {
   error: "error",
@@ -150,9 +171,20 @@ export const FARMERS_TABLE_COLUMN = [
     flex: 1,
     editable: false,
     headerClassName: "data-grid-header",
+    headerAlign: "center",
     renderCell: (params) => (
       <Stack justifyContent="center" alignItems="center" height="100%">
-        <img src={logo} style={{ maxWidth: 38 }} alt="img.png" />
+        <StyledBadge
+          overlap="circular"
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          variant="dot"
+        >
+          <Avatar
+            alt="Remy Sharp"
+            src={params.row?.userImage}
+            sx={{ border: "2px solid #007bff" }}
+          />
+        </StyledBadge>
       </Stack>
     ),
   },
@@ -162,144 +194,6 @@ export const FARMERS_TABLE_COLUMN = [
     flex: 1,
     editable: false,
     headerClassName: "data-grid-header",
-  },
-
-  {
-    field: "sex",
-    headerName: "Sex",
-    flex: 1,
-    editable: false,
-    headerClassName: "data-grid-header",
-  },
-  {
-    field: "address",
-    headerName: "Address",
-    flex: 1,
-    editable: false,
-    headerClassName: "data-grid-header",
-  },
-  {
-    field: "contact",
-    headerName: "Contact No.",
-    flex: 1,
-    editable: false,
-    headerClassName: "data-grid-header",
-  },
-  {
-    field: "birthDate",
-    headerName: "Birth date",
-    flex: 1,
-    editable: false,
-    headerClassName: "data-grid-header",
-  },
-  {
-    field: "civilStatus",
-    headerName: "Civil Status",
-    flex: 1,
-    editable: false,
-    headerClassName: "data-grid-header",
-    align: "center",
-    headerAlign: "center",
-  },
-  {
-    field: "pwd",
-    headerName: "PWD",
-    flex: 1,
-    editable: false,
-    headerClassName: "data-grid-header",
-    align: "center",
-    headerAlign: "center",
-  },
-  {
-    field: "4psBeneficiary",
-    headerName: "4P's Beneficiary",
-    flex: 1,
-    editable: false,
-    headerClassName: "data-grid-header",
-    align: "center",
-    headerAlign: "center",
-  },
-  {
-    field: "mainLivelihood",
-    headerName: "Main Livelihood",
-    flex: 1,
-    editable: false,
-    headerClassName: "data-grid-header",
-  },
-  {
-    field: "emergencyPhoneNo",
-    headerName: "Emergency Phone No.",
-    flex: 1,
-    editable: false,
-    headerClassName: "data-grid-header",
-  },
-  {
-    field: "actions",
-    headerName: "Actions",
-    width: 200,
-    editable: false,
-    headerClassName: "data-grid-header",
-    headerAlign: "center",
-    renderCell: (params) => (
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-        height="100%"
-        gap={1}
-      >
-        <Button
-          variant="contained"
-          color="info"
-          size="small"
-          onClick={() => handleInfoClick(params.row)}
-        >
-          Info
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="small"
-          onClick={() => handleArchiveClick(params.row)}
-        >
-          Archive
-        </Button>
-      </Stack>
-    ),
-  },
-];
-
-export const APPROVAL_TABLE_COLUMN = [
-  {
-    field: "photo",
-    headerName: "Photo",
-    flex: 1,
-    editable: false,
-    headerClassName: "data-grid-header",
-    headerAlign: "center",
-    renderCell: (params) => (
-      <Stack justifyContent="center" alignItems="center" height="100%">
-        <img
-          src={params.row?.userImage}
-          style={{
-            maxWidth: 38,
-            borderRadius: "100%",
-            border: "2px solid #007bff",
-          }}
-          alt="img.png"
-        />
-      </Stack>
-    ),
-  },
-  {
-    field: "fullname",
-    headerName: "Name",
-    flex: 1,
-    editable: false,
-    headerClassName: "data-grid-header",
-    renderCell: (params) => {
-      return `${params?.row?.firstname} ${params?.row?.middlename} ${params?.row?.surname} ${params?.row?.extensionName}`;
-    },
   },
 
   {
@@ -373,5 +267,179 @@ export const APPROVAL_TABLE_COLUMN = [
     flex: 1,
     editable: false,
     headerClassName: "data-grid-header",
+  },
+];
+
+export const APPROVAL_TABLE_COLUMN = [
+  {
+    field: "photo",
+    headerName: "Photo",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    headerAlign: "center",
+    renderCell: (params) => (
+      <Stack justifyContent="center" alignItems="center" height="100%">
+        <Avatar
+          alt="Remy Sharp"
+          src={params.row?.userImage}
+          sx={{ border: "2px solid #007bff" }}
+        />
+      </Stack>
+    ),
+  },
+  {
+    field: "fullname",
+    headerName: "Name",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+
+  {
+    field: "sex",
+    headerName: "Sex",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "barangay",
+    headerName: "Address",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "contactNo",
+    headerName: "Contact No.",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "birthDate",
+    headerName: "Birth date",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "civilStatus",
+    headerName: "Civil Status",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    align: "center",
+    headerAlign: "center",
+  },
+  {
+    field: "PWD",
+    headerName: "PWD",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    align: "center",
+    headerAlign: "center",
+  },
+  {
+    field: "_4ps",
+    headerName: "4P's Beneficiary",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    align: "center",
+    headerAlign: "center",
+  },
+  {
+    field: "livelihood",
+    headerName: "Main Livelihood",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "contactPersonToNotifyInCaseEmergency",
+    headerName: "Emergency Phone No.",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+];
+
+export const REPORTS_TABLE_COLUMN = [
+  {
+    field: "fullname",
+    headerName: "Name of Farmer",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+
+  {
+    field: "barangay",
+    headerName: "Barangay",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "longitude",
+    headerName: "Longitude",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "latitude",
+    headerName: "Latitude",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "contactNo",
+    headerName: "Contact Details",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "typeofFarm",
+    headerName: "Type of Form (CM, SC, SH)",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    align: "center",
+  },
+  {
+    field: "totalFarmPopulation",
+    headerName: "Total Farm Population",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    align: "center",
+  },
+  {
+    field: "rsbsaRegistered",
+    headerName: "RSBSA Registered",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "referenceNo",
+    headerName: "RSBSA Control No.",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+  },
+  {
+    field: "bioSecLvl",
+    headerName: "Biosecurrity Level(0,1,2)",
+    flex: 1,
+    editable: false,
+    headerClassName: "data-grid-header",
+    align: "center",
   },
 ];

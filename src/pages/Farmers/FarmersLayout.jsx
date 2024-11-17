@@ -7,8 +7,8 @@ const FarmersLayout = () => {
     <PageContainer
       tabs={[
         { to: "", label: "Farmers" },
-        { to: "reports", label: "Reports" },
         { to: "archived", label: "Archived" },
+        { to: "reports", label: "Reports" },
       ]}
     >
       <Outlet />

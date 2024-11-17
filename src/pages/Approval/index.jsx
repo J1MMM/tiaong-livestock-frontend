@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { PageContainer } from "../../components/layout/PageContainer";
 import { DataGrid } from "@mui/x-data-grid";
 import { TableToolbar } from "../../components/form/table/TableToolbar";
 import TableFilterBtn from "../../components/form/table/TableFilterBtn";
@@ -10,44 +9,46 @@ import {
   FARMERS_TABLE_COLUMN,
 } from "../../utils/constant";
 import useData from "../../hooks/useData";
-import {
-  Alert,
-  Box,
-  Button,
-  Checkbox,
-  CircularProgress,
-  Collapse,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  FormControlLabel,
-  Stack,
-  TextField,
-} from "@mui/material";
-import { ContainerModal } from "../../components/shared/ContainerModal";
+import { Button, Stack } from "@mui/material";
 import InfoModal from "./InfoModal";
 import ConfirmationDialog from "../../components/shared/ConfirmationDialog";
-
+import RejectionModal from "./RejectionModal";
+import axios from "../../api/axios";
+import { useQueryClient } from "react-query";
+import SnackBar from "../../components/shared/SnackBar";
+import ApprovalModal from "./ApprovalModal";
+const REJECTION_INITIAL_DATA = {
+  incomplete: false,
+  invalidID: false,
+  notEligible: false,
+  duplicate: false,
+  falseInfo: false,
+  missingDoc: false,
+  others: false,
+  specify: "",
+};
+const APPROVAL_INITIAL_DATA = {
+  typeofFarm: "",
+  rsbsaRegistered: "",
+  referenceNo: "",
+  bioSecLvl: "",
+};
 const Approval = () => {
-  const { approvalData } = useData();
+  const queryClient = useQueryClient();
+  const { approvalData, approvalDataLoading } = useData();
   const [selectedRow, setSelectedRow] = useState({});
   const [infoOpen, setInfoOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [formMsg, setFormMsg] = useState("");
+  const [severity, setSeverity] = useState("error");
   const [approvalConfirmationOpen, setApprovalConfirmationOpen] =
     useState(false);
   const [rejectConfirmationOpen, setRejectConfirmationOpen] = useState(false);
-  const [rejectionReason, setRejectReason] = useState({
-    incomplete: false,
-    invalidID: false,
-    notEligible: false,
-    duplicate: false,
-    falseInfo: false,
-    missingDoc: false,
-    others: false,
-    specify: "",
-  });
+  const [rejectionReason, setRejectReason] = useState(REJECTION_INITIAL_DATA);
+  const [approvalFormData, setApprovalFormData] = useState(
+    APPROVAL_INITIAL_DATA
+  );
 
   const handleInfoClick = (row) => {
     setSelectedRow(row);
@@ -61,8 +62,76 @@ const Approval = () => {
     setRejectConfirmationOpen(true);
   };
 
-  const handleApproveSubmit = async () => {};
-  const handleRejectSubmit = async () => {};
+  const handleApproveSubmit = async () => {
+    setDisabled(true);
+    try {
+      const response = await axios.post("/approval", {
+        ...approvalFormData,
+        id: selectedRow.id,
+      });
+
+      await queryClient.setQueryData("approvalData", (oldData) =>
+        oldData.filter((item) => item.id != selectedRow?.id)
+      );
+      await queryClient.invalidateQueries("farmersData");
+      setSeverity("success");
+      setFormMsg("Farmer's data approved successfully.");
+      setApprovalFormData(APPROVAL_INITIAL_DATA);
+      setInfoOpen(false);
+    } catch (error) {
+      setSeverity("error");
+      setFormMsg("Approval of farmer's data failed. Please try again.");
+      console.log(error);
+    }
+    setSnackOpen(true);
+    setApprovalConfirmationOpen(false);
+    setDisabled(false);
+  };
+  const handleRejectSubmit = async () => {
+    setDisabled(true);
+    console.log("submit");
+    if (
+      !rejectionReason.duplicate &&
+      !rejectionReason.falseInfo &&
+      !rejectionReason.incomplete &&
+      !rejectionReason.invalidID &&
+      !rejectionReason.missingDoc &&
+      !rejectionReason.notEligible &&
+      !rejectionReason.others
+    ) {
+      setFormMsg("At least one reason must be selected.");
+      setSeverity("warning");
+      setDisabled(false);
+      setRejectConfirmationOpen(false);
+      setSnackOpen(true);
+      return;
+    }
+
+    try {
+      const response = await axios.post("/approval/reject", {
+        rejectionReason,
+        id: selectedRow.id,
+      });
+
+      console.log(response.data);
+
+      await queryClient.setQueryData("approvalData", (oldData) =>
+        oldData.filter((item) => item.id != selectedRow?.id)
+      );
+      await queryClient.invalidateQueries("rejectedData");
+      setSeverity("success");
+      setFormMsg("Farmer's data rejected successfully.");
+    } catch (error) {
+      setSeverity("error");
+      setFormMsg("Failed to reject farmer's data. Please try again.");
+      console.log(error);
+    }
+    setSnackOpen(true);
+    setDisabled(false);
+    setRejectConfirmationOpen(false);
+    setInfoOpen(false);
+    setRejectReason(REJECTION_INITIAL_DATA);
+  };
 
   const handleCheckboxChange = (e) => {
     setRejectReason((prev) => ({
@@ -99,7 +168,7 @@ const Approval = () => {
   return (
     <>
       <DataGrid
-        loading={false}
+        loading={approvalDataLoading}
         rows={approvalData}
         columns={[...APPROVAL_TABLE_COLUMN, ActionButtonColumn]}
         initialState={{
@@ -118,7 +187,7 @@ const Approval = () => {
           toolbar: () => (
             <TableToolbar
               titleText="Pending Farmers"
-              subText="Efficiently Manage Farmers' Records"
+              subText="Farmers Awaiting Approval"
               actionBtn={
                 <>
                   <TableFilterBtn />
@@ -131,7 +200,11 @@ const Approval = () => {
       />
       <InfoModal
         open={infoOpen}
-        onClose={() => setInfoOpen(false)}
+        onClose={() => {
+          setInfoOpen(false);
+          setRejectReason(REJECTION_INITIAL_DATA);
+          setApprovalFormData(APPROVAL_INITIAL_DATA);
+        }}
         row={selectedRow}
         actionButton={
           <>
@@ -154,7 +227,7 @@ const Approval = () => {
         }
       />
 
-      <ConfirmationDialog
+      {/* <ConfirmationDialog
         disabled={disabled}
         title="Approval Confirmation"
         content="Are you sure you want to approve this farmer's data?"
@@ -162,123 +235,33 @@ const Approval = () => {
         setOpen={setApprovalConfirmationOpen}
         confirm={handleApproveSubmit}
         serverity="info"
+      /> */}
+
+      <ApprovalModal
+        disabled={disabled}
+        open={approvalConfirmationOpen}
+        onClose={() => setApprovalConfirmationOpen(false)}
+        approvalFormData={approvalFormData}
+        setApprovalFormData={setApprovalFormData}
+        onSubmit={handleApproveSubmit}
       />
 
-      <Dialog open={rejectConfirmationOpen} maxWidth="md">
-        <DialogTitle
-          variant="h6"
-          fontWeight="500"
-          sx={{ bgcolor: "primary.main" }}
-          color="white"
-        >
-          Reason of Rejection
-        </DialogTitle>
-        <DialogContent dividers>
-          <DialogContentText>
-            <Stack minWidth={400}>
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Incomplete Application"
-                checked={rejectionReason.incomplete}
-                name="incomplete"
-                onChange={handleCheckboxChange}
-                disabled={disabled}
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Invalid or Missing ID"
-                checked={rejectionReason.invalidID}
-                name="invalidID"
-                onChange={handleCheckboxChange}
-                disabled={disabled}
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Not Eligible (non-farmer)"
-                checked={rejectionReason.notEligible}
-                name="notEligible"
-                onChange={handleCheckboxChange}
-                disabled={disabled}
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Duplicate Application"
-                checked={rejectionReason.duplicate}
-                name="duplicate"
-                onChange={handleCheckboxChange}
-                disabled={disabled}
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                label="False Information"
-                checked={rejectionReason.falseInfo}
-                name="falseInfo"
-                onChange={handleCheckboxChange}
-                disabled={disabled}
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Missing Documents"
-                checked={rejectionReason.missingDoc}
-                name="missingDoc"
-                onChange={handleCheckboxChange}
-                disabled={disabled}
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Other, Specify:"
-                checked={rejectionReason.others}
-                name="others"
-                onChange={handleCheckboxChange}
-                disabled={disabled}
-              />
+      <RejectionModal
+        disabled={disabled}
+        handleCheckboxChange={handleCheckboxChange}
+        handleRejectSubmit={handleRejectSubmit}
+        open={rejectConfirmationOpen}
+        rejectionReason={rejectionReason}
+        onClose={() => setRejectConfirmationOpen(false)}
+        setRejectReason={setRejectReason}
+      />
 
-              <Collapse in={rejectionReason.others}>
-                <TextField
-                  fullWidth
-                  placeholder="Specify here"
-                  value={rejectionReason.specify}
-                  onChange={(e) =>
-                    setRejectReason((prev) => ({
-                      ...prev,
-                      specify: e.target.value,
-                    }))
-                  }
-                />
-              </Collapse>
-            </Stack>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions component={"span"}>
-          <>
-            <Button
-              disabled={disabled}
-              variant="outlined"
-              size="small"
-              onClick={() => setRejectConfirmationOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              autoFocus
-              disabled={disabled}
-              variant="contained"
-              size="small"
-              color={"primary"}
-              onClick={handleRejectSubmit}
-            >
-              {disabled ? (
-                <Box display="flex" alignItems="center" gap={2}>
-                  <CircularProgress size={18} color="inherit" />
-                  <span>Loading...</span>
-                </Box>
-              ) : (
-                <span>submit</span>
-              )}
-            </Button>
-          </>
-        </DialogActions>
-      </Dialog>
+      <SnackBar
+        severity={severity}
+        msg={formMsg}
+        open={snackOpen}
+        onClose={setSnackOpen}
+      />
     </>
   );
 };

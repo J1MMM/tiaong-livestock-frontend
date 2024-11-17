@@ -1,21 +1,17 @@
 import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import {
-  APPROVAL_TABLE_COLUMN,
-  DATA_GRID_STYLE,
-  FARMERS_TABLE_COLUMN,
-} from "../../utils/constant";
 import { TableToolbar } from "../../components/form/table/TableToolbar";
-import { Box, Button, Stack } from "@mui/material";
 import TableFilterBtn from "../../components/form/table/TableFilterBtn";
 import TableQuickFilter from "../../components/form/table/TableQuickFilter";
+import { APPROVAL_TABLE_COLUMN, DATA_GRID_STYLE } from "../../utils/constant";
 import useData from "../../hooks/useData";
-import InfoModal from "../Approval/InfoModal";
+import { Button, Stack } from "@mui/material";
+import InfoModal from "./InfoModal";
 
-const FarmersArchived = () => {
-  const { farmersArchivedData, farmersArchivedDataLoading } = useData();
+const RejectedPage = () => {
+  const { rejectedData, rejectedDataLoading } = useData();
+  const [selectedRow, setSelectedRow] = useState({});
   const [infoOpen, setInfoOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null);
 
   const handleInfoClick = (row) => {
     setSelectedRow(row);
@@ -51,8 +47,8 @@ const FarmersArchived = () => {
   return (
     <>
       <DataGrid
-        loading={farmersArchivedDataLoading}
-        rows={farmersArchivedData}
+        loading={rejectedDataLoading}
+        rows={rejectedData}
         columns={[...APPROVAL_TABLE_COLUMN, ActionButtonColumn]}
         initialState={{
           pagination: {
@@ -69,8 +65,8 @@ const FarmersArchived = () => {
         slots={{
           toolbar: () => (
             <TableToolbar
-              titleText="Archived Farmers"
-              subText="View records of archived farmers."
+              titleText="Rejected Farmers"
+              subText="List of Farmers with Rejected Applications"
               actionBtn={
                 <>
                   <TableFilterBtn />
@@ -81,11 +77,11 @@ const FarmersArchived = () => {
           ),
         }}
       />
-
       <InfoModal
         open={infoOpen}
         onClose={() => setInfoOpen(false)}
         row={selectedRow}
+        rejectionReasonShow={true}
         actionButton={
           <>
             <Button
@@ -93,7 +89,7 @@ const FarmersArchived = () => {
               variant="contained"
               onClick={() => setInfoOpen(false)}
             >
-              close
+              Close
             </Button>
           </>
         }
@@ -102,4 +98,4 @@ const FarmersArchived = () => {
   );
 };
 
-export default FarmersArchived;
+export default RejectedPage;

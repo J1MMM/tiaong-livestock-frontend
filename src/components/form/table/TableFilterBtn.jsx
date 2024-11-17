@@ -15,7 +15,7 @@ export default function TableFilterBtn() {
             style: {
               marginTop: "-3px",
               padding: "5.5px 20px",
-              border: "1px solid #414780",
+              border: "1px solid #007bff",
             },
           },
         }}

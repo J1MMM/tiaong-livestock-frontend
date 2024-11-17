@@ -15,7 +15,7 @@ const SnackBar = ({ open, onClose, severity, msg, position }) => {
       >
         <Alert
           onClose={() => onClose(false)}
-          severity={severity}
+          severity={severity || "success"}
           variant="filled"
           icon={false}
           sx={{ width: "100%" }}

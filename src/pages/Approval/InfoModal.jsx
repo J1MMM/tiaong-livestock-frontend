@@ -1,10 +1,16 @@
 import React from "react";
 import { ContainerModal } from "../../components/shared/ContainerModal";
-import { Box, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Stack,
+  Typography,
+} from "@mui/material";
 import dayjs from "dayjs";
 import "./style.scss";
 
-function InfoModal({ open, onClose, actionButton, row }) {
+function InfoModal({ open, onClose, actionButton, row, rejectionReasonShow }) {
   return (
     <ContainerModal
       title="Farmer's Information"
@@ -18,6 +24,80 @@ function InfoModal({ open, onClose, actionButton, row }) {
           <b>Registered at:</b>{" "}
           {dayjs(row?.registeredAt).format("MMMM DD, YYYY")}
         </Typography>
+        {row?.archivedAt && (
+          <Typography color="#888">
+            <b>Archived at:</b> {dayjs(row?.archivedAt).format("MMMM DD, YYYY")}
+          </Typography>
+        )}
+        {row?.rejectedAt && (
+          <Typography color="#888">
+            <b>Rejected at:</b>{" "}
+            {dayjs(row?.rejectedAt).format("MMMM DD, YYYY")}
+          </Typography>
+        )}
+
+        {rejectionReasonShow && row.rejectionReason && (
+          <>
+            <Typography
+              color="primary"
+              borderBottom="2px solid #007bff"
+              width="100%"
+              mt={2}
+            >
+              Reason of Rejection
+            </Typography>
+
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Incomplete Application"
+              checked={row?.rejectionReason.incomplete}
+              name="incomplete"
+              disabled={true}
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Invalid or Missing ID"
+              checked={row?.rejectionReason.invalidID}
+              name="invalidID"
+              disabled={true}
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Not Eligible (non-farmer)"
+              checked={row?.rejectionReason.notEligible}
+              name="notEligible"
+              disabled={true}
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Duplicate Application"
+              checked={row?.rejectionReason.duplicate}
+              name="duplicate"
+              disabled={true}
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label="False Information"
+              checked={row?.rejectionReason.falseInfo}
+              name="falseInfo"
+              disabled={true}
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Missing Documents"
+              checked={row?.rejectionReason.missingDoc}
+              name="missingDoc"
+              disabled={true}
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label={`Other, Specify: ${row?.rejectionReason.specify}`}
+              checked={row?.rejectionReason.others}
+              name="others"
+              disabled={true}
+            />
+          </>
+        )}
 
         <Typography
           color="primary"

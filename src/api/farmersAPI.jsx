@@ -1,9 +1,8 @@
-import dayjs from "dayjs";
 import axios from "./axios";
 
-export const fetchApprovalData = async () => {
+export const fetchFarmersData = async () => {
   try {
-    const response = await axios.get("/approval");
+    const response = await axios.get("/farmers");
 
     const row = response.data || [];
 
@@ -12,9 +11,9 @@ export const fetchApprovalData = async () => {
     console.log(error);
   }
 };
-export const fetchRejectedData = async () => {
+export const fetchFarmersArchivedData = async () => {
   try {
-    const response = await axios.get("/approval/reject");
+    const response = await axios.get("/farmers/archive");
 
     const row = response.data || [];
 
