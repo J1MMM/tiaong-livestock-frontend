@@ -16,7 +16,7 @@ export const PageContainer = ({ children, tabs, titleText, subText }) => {
     >
       {tabs && <Tab links={tabs} />}
 
-      <Box p={2} height="calc(100% - 58px)" boxSizing={"border-box"}>
+      <Box p={3} height="calc(100% - 58px)" boxSizing={"border-box"}>
         {titleText && (
           <Stack boxSizing="border-box" mb={1}>
             <Typography variant="h6" fontWeight={600}>
