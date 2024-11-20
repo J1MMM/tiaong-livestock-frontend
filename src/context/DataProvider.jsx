@@ -2,6 +2,7 @@ import React, { createContext } from "react";
 import { useQuery } from "react-query";
 import { fetchApprovalData, fetchRejectedData } from "../api/approvalAPI";
 import { fetchFarmersArchivedData, fetchFarmersData } from "../api/farmersAPI";
+import { fetchAnnouncementData } from "../api/announcementAPI";
 
 const DataContext = createContext({});
 
@@ -21,6 +22,11 @@ export const DataProvider = ({ children }) => {
   const { data: farmersArchivedData, isLoading: farmersArchivedDataLoading } =
     useQuery("farmersArchivedData", fetchFarmersArchivedData);
 
+  const { data: announcementData } = useQuery(
+    "announcementData",
+    fetchAnnouncementData
+  );
+
   return (
     <DataContext.Provider
       value={{
@@ -32,6 +38,7 @@ export const DataProvider = ({ children }) => {
         farmersDataLoading,
         farmersArchivedData,
         farmersArchivedDataLoading,
+        announcementData,
       }}
     >
       {children}
