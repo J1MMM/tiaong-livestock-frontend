@@ -16,6 +16,7 @@ import useData from "../../hooks/useData";
 import dayjs from "dayjs";
 import { useQueryClient } from "react-query";
 import ViewAnnouncementModal from "./ViewAnnouncementModal";
+import ConfirmationDialog from "../../components/shared/ConfirmationDialog";
 
 const Announcement = () => {
   const { announcementData } = useData();
@@ -24,8 +25,13 @@ const Announcement = () => {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [infoModalOpen, setInfoModalOpen] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
+  const [severity, setSeverity] = useState("success");
+  const [editMode, setEditMode] = useState(false);
   const [errorSnackOpen, setErrorSnackOpen] = useState(false);
+  const [deleteConfimationOpen, setDeleteConfimationOpen] = useState(false);
   const [formData, setFormData] = useState({
+    id: "",
     title: "",
     message: "",
     createdAt: null,
@@ -35,27 +41,81 @@ const Announcement = () => {
     setDisabled(true);
     try {
       const response = await axios.post("/announcement", formData);
+
       await queryClient.invalidateQueries("announcementData");
+
       setFormData({
+        id: "",
         title: "",
         message: "",
       });
+      setSeverity("success");
+      setAlertMsg("Announcement has been added successfully.");
       setSnackOpen(true);
       setAddModalOpen(false);
     } catch (error) {
       console.log(error);
-      setErrorSnackOpen(true);
+      setSeverity("error");
+      setAlertMsg("Failed to add the announcement. Please try again.");
+      setSnackOpen(true);
     }
     setDisabled(false);
   };
 
-  const handleSeeMoreClick = () => {
+  const handleSeeMoreClick = (val) => {
     setInfoModalOpen(true);
     setFormData({
+      id: val?._id,
       title: val?.title,
       message: val?.message,
       createdAt: val?.createdAt,
     });
+  };
+
+  const handleUpdateSumbit = async () => {
+    setDisabled(true);
+    try {
+      const response = await axios.patch("/announcement", formData);
+      await queryClient.invalidateQueries("announcementData");
+
+      setSeverity("success");
+      setAlertMsg("Announcement Updated Successfully");
+      setSnackOpen(true);
+      setEditMode(false);
+    } catch (error) {
+      setSeverity("error");
+      setAlertMsg("Failed to update Announcement, Please try again.");
+      setSnackOpen(true);
+      console.log(error);
+    }
+    setDisabled(false);
+  };
+  const handleDeleteSumbit = async () => {
+    setDisabled(true);
+    try {
+      const response = await axios.delete("/announcement", {
+        data: { id: formData.id },
+      });
+      await queryClient.invalidateQueries("announcementData");
+
+      setDeleteConfimationOpen(false);
+      setInfoModalOpen(false);
+      setSeverity("success");
+      setAlertMsg("Announcement Deleted Successfully");
+      setSnackOpen(true);
+
+      setFormData({
+        id: "",
+        title: "",
+        message: "",
+      });
+    } catch (error) {
+      setSeverity("error");
+      setAlertMsg("Failed to delete Announcement, Please try again.");
+      setSnackOpen(true);
+      console.log(error);
+    }
+    setDisabled(false);
   };
   return (
     <>
@@ -100,6 +160,7 @@ const Announcement = () => {
               elevation={5}
               sx={{
                 padding: 2,
+                width: "100%",
                 maxWidth: 300,
                 minHeight: 250,
                 maxHeight: 250,
@@ -114,7 +175,7 @@ const Announcement = () => {
                   color="primary.main"
                   fontWeight={600}
                   sx={{
-                    maxWidth: "200px", // Set the max width as needed
+                    maxWidth: "300px", // Set the max width as needed
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
@@ -145,7 +206,7 @@ const Announcement = () => {
                   size="small"
                   variant="contained"
                   sx={{ mt: "auto" }}
-                  onClick={handleSeeMoreClick}
+                  onClick={() => handleSeeMoreClick(val)}
                 >
                   See More
                 </Button>
@@ -161,33 +222,44 @@ const Announcement = () => {
         onSubmit={handleAnnouncementSubmit}
         formData={formData}
         setFormData={setFormData}
-        handleSubmit={handleAnnouncementSubmit}
       />
 
       <ViewAnnouncementModal
         open={infoModalOpen}
         disabled={disabled}
+        editMode={editMode}
+        formData={formData}
+        setEditMode={setEditMode}
+        setFormData={setFormData}
+        handleDeleteClick={() => setDeleteConfimationOpen(true)}
+        onSubmit={handleUpdateSumbit}
         onClose={() => {
+          setEditMode(false);
           setInfoModalOpen(false);
           setFormData({
+            id: "",
             title: "",
             message: "",
             createdAt: null,
           });
         }}
-        formData={formData}
-        setFormData={setFormData}
       />
 
       <SnackBar
         open={snackOpen}
         onClose={setSnackOpen}
-        msg="Announcement has been added successfully."
+        msg={alertMsg}
+        severity={severity}
       />
-      <SnackBar
-        open={errorSnackOpen}
-        onClose={setErrorSnackOpen}
-        msg="Failed to add the announcement. Please try again."
+
+      <ConfirmationDialog
+        open={deleteConfimationOpen}
+        disabled={disabled}
+        setOpen={setDeleteConfimationOpen}
+        title="Delete Confirmation"
+        content="Are you sure you want to delete this announcement?"
+        confirm={handleDeleteSumbit}
+        serverity="error"
       />
     </>
   );

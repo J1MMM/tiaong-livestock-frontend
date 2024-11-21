@@ -86,17 +86,6 @@ const FarmersArchived = () => {
         open={infoOpen}
         onClose={() => setInfoOpen(false)}
         row={selectedRow}
-        actionButton={
-          <>
-            <Button
-              size="small"
-              variant="contained"
-              onClick={() => setInfoOpen(false)}
-            >
-              close
-            </Button>
-          </>
-        }
       />
     </>
   );

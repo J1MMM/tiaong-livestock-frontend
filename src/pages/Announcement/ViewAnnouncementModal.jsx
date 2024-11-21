@@ -1,3 +1,4 @@
+import { Close } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -6,20 +7,23 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import React from "react";
 
-function AddAnnouncementModal({
+function ViewAnnouncementModal({
   open,
   onSubmit,
   onClose,
   disabled,
-  handleSubmit,
   setFormData,
   formData,
+  editMode,
+  setEditMode,
+  handleDeleteClick,
 }) {
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -28,22 +32,20 @@ function AddAnnouncementModal({
     }));
   };
   return (
-    <Dialog
-      open={open}
-      maxWidth="md"
-      component={"form"}
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSubmit();
-      }}
-    >
+    <Dialog open={open} maxWidth="md" component={"form"}>
       <DialogTitle
         variant="h6"
         fontWeight="500"
         sx={{ bgcolor: "primary.main" }}
         color="white"
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
       >
-        Add Announcement
+        Announcement
+        <IconButton onClick={onClose}>
+          <Close sx={{ color: "#FFF" }} />
+        </IconButton>
       </DialogTitle>
       <DialogContent>
         <Box
@@ -52,7 +54,7 @@ function AddAnnouncementModal({
           display="flex"
           flexDirection="column"
           gap={2}
-          minWidth={350}
+          minWidth={500}
         >
           <TextField
             label="Title"
@@ -64,6 +66,11 @@ function AddAnnouncementModal({
             name="title"
             value={formData.title}
             onChange={handleChange}
+            slotProps={{
+              input: {
+                readOnly: !editMode,
+              },
+            }}
           />
 
           <TextField
@@ -74,44 +81,72 @@ function AddAnnouncementModal({
             required
             disabled={disabled}
             multiline
-            rows={4}
+            rows={10}
             name="message"
             value={formData.message}
             onChange={handleChange}
+            slotProps={{
+              input: {
+                readOnly: !editMode,
+              },
+            }}
           />
         </Box>
       </DialogContent>
       <DialogActions component={"span"}>
-        <>
-          <Button
-            disabled={disabled}
-            variant="outlined"
-            size="small"
-            onClick={onClose}
-          >
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            disabled={disabled}
-            variant="contained"
-            size="small"
-            color={"primary"}
-            onClick={handleSubmit}
-          >
-            {disabled ? (
-              <Box display="flex" alignItems="center" gap={2}>
-                <CircularProgress size={18} color="inherit" />
-                <span>Loading...</span>
-              </Box>
-            ) : (
-              <span>submit</span>
-            )}
-          </Button>
-        </>
+        {editMode ? (
+          <>
+            <Button
+              disabled={disabled}
+              variant="outlined"
+              size="small"
+              onClick={() => setEditMode(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              disabled={disabled}
+              variant="contained"
+              size="small"
+              color={"primary"}
+              onClick={onSubmit}
+            >
+              {disabled ? (
+                <Box display="flex" alignItems="center" gap={2}>
+                  <CircularProgress size={18} color="inherit" />
+                  <span>Loading...</span>
+                </Box>
+              ) : (
+                <span>submit</span>
+              )}
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              disabled={disabled}
+              variant="contained"
+              size="small"
+              color="error"
+              onClick={handleDeleteClick}
+            >
+              Delete
+            </Button>
+            <Button
+              disabled={disabled}
+              variant="contained"
+              size="small"
+              color={"primary"}
+              onClick={() => setEditMode(true)}
+              type="button"
+            >
+              Edit
+            </Button>
+          </>
+        )}
       </DialogActions>
     </Dialog>
   );
 }
 
-export default AddAnnouncementModal;
+export default ViewAnnouncementModal;

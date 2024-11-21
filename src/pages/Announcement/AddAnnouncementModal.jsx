@@ -1,3 +1,4 @@
+import { Close } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -6,6 +7,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton,
   Stack,
   TextField,
   Typography,
@@ -17,7 +19,6 @@ function AddAnnouncementModal({
   onSubmit,
   onClose,
   disabled,
-  handleSubmit,
   setFormData,
   formData,
 }) {
@@ -52,7 +53,7 @@ function AddAnnouncementModal({
           display="flex"
           flexDirection="column"
           gap={2}
-          minWidth={350}
+          minWidth={500}
         >
           <TextField
             label="Title"
@@ -74,7 +75,7 @@ function AddAnnouncementModal({
             required
             disabled={disabled}
             multiline
-            rows={4}
+            rows={10}
             name="message"
             value={formData.message}
             onChange={handleChange}
@@ -97,7 +98,6 @@ function AddAnnouncementModal({
             variant="contained"
             size="small"
             color={"primary"}
-            onClick={handleSubmit}
           >
             {disabled ? (
               <Box display="flex" alignItems="center" gap={2}>
