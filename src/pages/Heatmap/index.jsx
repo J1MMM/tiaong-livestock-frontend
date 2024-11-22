@@ -1,20 +1,21 @@
 import React from "react";
+import { tiaongPolygonCoordinates } from "../../polygon";
+import { Box, Stack, Typography } from "@mui/material";
+import { PageContainer } from "../../components/layout/PageContainer";
+import { setLocFormat } from "../../utils/helper";
 import {
   GoogleMap,
   HeatmapLayer,
   Polygon,
   useJsApiLoader,
 } from "@react-google-maps/api";
-import { tiaongPolygonCoordinates } from "../../polygon";
-import { Box, Stack, Typography } from "@mui/material";
-import { PageContainer } from "../../components/layout/PageContainer";
 import {
   BRGY_COOR,
   LIVESTOCK,
   MORTALITY,
   TIAONG_BRGY,
 } from "../../utils/constant";
-import { setLocFormat } from "../../utils/helper";
+import useData from "../../hooks/useData";
 
 const GMAP_CENTER = {
   lat: 13.954276367408628,
@@ -30,6 +31,7 @@ const ALLOWED_BOUNDS = {
 const GMAP_LIBRARIES = ["visualization"];
 
 function Heatmap() {
+  const { livestockData, livestockAnalytics } = useData();
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: import.meta.env.VITE_MAP_API_KEY,
@@ -37,6 +39,8 @@ function Heatmap() {
   });
 
   const [map, setMap] = React.useState(null);
+  const [activeCategory, setActiveCategory] = React.useState("");
+  const [activeLivestock, setActiveLivestock] = React.useState("");
 
   const onLoad = React.useCallback(function callback(map) {
     map.setZoom(12.5);
@@ -100,16 +104,20 @@ function Heatmap() {
               }}
             />
             <HeatmapLayer
-              data={TIAONG_BRGY.map((brgy) => ({
-                location: setLocFormat(
-                  BRGY_COOR[brgy].lat,
-                  BRGY_COOR[brgy].lng
-                ),
-                weight: Math.random(),
-              }))}
+              data={
+                (livestockData &&
+                  livestockData.map((obj) => ({
+                    location: setLocFormat(
+                      BRGY_COOR[obj?.barangay].lat,
+                      BRGY_COOR[obj?.barangay].lng
+                    ),
+                    weight: obj?.[activeCategory]?.[activeLivestock] || 0.01,
+                  }))) ||
+                []
+              }
               options={{
-                radius: 20,
-                opacity: 0.6,
+                radius: 50,
+                opacity: 0.8,
               }}
             />
           </GoogleMap>
@@ -118,15 +126,35 @@ function Heatmap() {
         <Stack gap={2}>
           <Stack direction="row" width="100%" justifyContent="center" gap={2}>
             {LIVESTOCK.map((obj, i) => (
-              <button key={i} variant="outlined" className="livestock-btn">
+              <button
+                key={i}
+                variant="outlined"
+                className={`livestock-btn ${
+                  obj.name?.toLowerCase() == activeLivestock &&
+                  activeCategory == "livestock"
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() => {
+                  setActiveCategory("livestock");
+                  setActiveLivestock(obj.name?.toLowerCase());
+                }}
+              >
                 <div className="hover" />
 
                 <img style={{ maxWidth: 42 }} src={obj?.img} alt={obj.name} />
                 <Typography variant="body2" fontWeight={600} mt={1} zIndex={1}>
                   {obj.name}
                 </Typography>
-                <Typography variant="body2" fontSize={10} zIndex={1}>
-                  Total: {obj.count}
+                <Typography
+                  variant="body2"
+                  fontSize={10}
+                  zIndex={1}
+                  color="#007bff"
+                  fontWeight="bold"
+                >
+                  Total:{" "}
+                  {livestockAnalytics?.livestock[obj.name?.toLowerCase()]}
                 </Typography>
               </button>
             ))}
@@ -136,7 +164,16 @@ function Heatmap() {
               <button
                 key={i}
                 variant="outlined"
-                className="livestock-btn mortality"
+                className={`livestock-btn mortality ${
+                  obj.name?.toLowerCase() == activeLivestock &&
+                  activeCategory == "mortality"
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() => {
+                  setActiveCategory("mortality");
+                  setActiveLivestock(obj.name?.toLowerCase());
+                }}
               >
                 <div className="hover" />
 
@@ -155,8 +192,11 @@ function Heatmap() {
                   variant="body2"
                   fontSize={10}
                   zIndex={1}
+                  color="#007bff"
+                  fontWeight="bold"
                 >
-                  Total: {obj.count}
+                  Total:{" "}
+                  {livestockAnalytics?.mortality[obj.name?.toLowerCase()]}
                 </Typography>
               </button>
             ))}

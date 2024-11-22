@@ -17,6 +17,7 @@ import dayjs from "dayjs";
 import { useQueryClient } from "react-query";
 import ViewAnnouncementModal from "./ViewAnnouncementModal";
 import ConfirmationDialog from "../../components/shared/ConfirmationDialog";
+import { AnnouncementOutlined } from "@mui/icons-material";
 
 const Announcement = () => {
   const { announcementData } = useData();
@@ -135,7 +136,11 @@ const Announcement = () => {
             </Typography>
           </Box>
 
-          <Button variant="contained" onClick={() => setAddModalOpen(true)}>
+          <Button
+            startIcon={<AnnouncementOutlined />}
+            variant="contained"
+            onClick={() => setAddModalOpen(true)}
+          >
             Add Announcement
           </Button>
         </Stack>
