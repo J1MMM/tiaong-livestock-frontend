@@ -4,8 +4,10 @@ import { fetchApprovalData, fetchRejectedData } from "../api/approvalAPI";
 import { fetchFarmersArchivedData, fetchFarmersData } from "../api/farmersAPI";
 import { fetchAnnouncementData } from "../api/announcementAPI";
 import {
-  fetchLivestockAnalytics,
   fetchLivestockData,
+  fetchTotalLivestock,
+  fetchYearlyRecordData,
+  fetchBarangayRecordData,
 } from "../api/livestockAPI";
 
 const DataContext = createContext({});
@@ -31,9 +33,17 @@ export const DataProvider = ({ children }) => {
     fetchAnnouncementData
   );
   const { data: livestockData } = useQuery("livestockData", fetchLivestockData);
-  const { data: livestockAnalytics } = useQuery(
-    "livestockAnalytics",
-    fetchLivestockAnalytics
+  const { data: totalLivestock } = useQuery(
+    "totalLivestock",
+    fetchTotalLivestock
+  );
+  const { data: yearlyRecordsData } = useQuery(
+    "yearlyRecordsData",
+    fetchYearlyRecordData
+  );
+  const { data: barangayRecordData } = useQuery(
+    "barangayRecordData",
+    fetchBarangayRecordData
   );
 
   return (
@@ -49,7 +59,9 @@ export const DataProvider = ({ children }) => {
         farmersArchivedDataLoading,
         announcementData,
         livestockData,
-        livestockAnalytics,
+        totalLivestock,
+        yearlyRecordsData,
+        barangayRecordData,
       }}
     >
       {children}

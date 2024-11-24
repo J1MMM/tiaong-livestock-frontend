@@ -56,7 +56,7 @@ export default function SideBar() {
           <img src={logo} alt="logo" width={75} />
         </Box>
 
-        <NavLink to="/" className="nav-link">
+        <NavLink to="/dashboard" className="nav-link">
           <Stack direction={"row"} alignItems="center" gap={2}>
             <BarChart sx={{ fontSize: 28 }} />
             <Typography minWidth={300}>Dasboard</Typography>

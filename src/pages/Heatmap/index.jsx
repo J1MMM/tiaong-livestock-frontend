@@ -31,7 +31,7 @@ const ALLOWED_BOUNDS = {
 const GMAP_LIBRARIES = ["visualization"];
 
 function Heatmap() {
-  const { livestockData, livestockAnalytics } = useData();
+  const { livestockData, totalLivestock } = useData();
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: import.meta.env.VITE_MAP_API_KEY,
@@ -153,8 +153,7 @@ function Heatmap() {
                   color="#007bff"
                   fontWeight="bold"
                 >
-                  Total:{" "}
-                  {livestockAnalytics?.livestock[obj.name?.toLowerCase()]}
+                  Total: {totalLivestock?.livestock[obj.name?.toLowerCase()]}
                 </Typography>
               </button>
             ))}
@@ -195,8 +194,7 @@ function Heatmap() {
                   color="#007bff"
                   fontWeight="bold"
                 >
-                  Total:{" "}
-                  {livestockAnalytics?.mortality[obj.name?.toLowerCase()]}
+                  Total: {totalLivestock?.mortality[obj.name?.toLowerCase()]}
                 </Typography>
               </button>
             ))}

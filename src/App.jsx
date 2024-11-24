@@ -15,6 +15,10 @@ import Dashboard from "./pages/Dashboard/index.jsx";
 import Announcement from "./pages/Announcement/index.jsx";
 import ApprovalLayout from "./pages/Approval/ApprovalLayout.jsx";
 import RejectedPage from "./pages/Approval/RejectedPage.jsx";
+import DashboardLayout from "./pages/Dashboard/DashboardLayout.jsx";
+import BarangayDashB from "./pages/Dashboard/BarangayDashB.jsx";
+import LivestockDashB from "./pages/Dashboard/LivestockDashB.jsx";
+import MoratlityDashB from "./pages/Dashboard/MoratlityDashB.jsx";
 
 function App() {
   return (
@@ -25,7 +29,14 @@ function App() {
 
           {/* <Route element={<RequireAuth />}> */}
           <Route path="/" element={<Layout />}>
-            <Route index element={<Dashboard />} />
+            <Route index element={<Navigate to="dashboard" replace />} />
+
+            <Route path="dashboard" element={<DashboardLayout />}>
+              <Route path="" element={<Dashboard />} />
+              <Route path="barangay" element={<BarangayDashB />} />
+              <Route path="livestock" element={<LivestockDashB />} />
+              <Route path="mortality" element={<MoratlityDashB />} />
+            </Route>
             <Route path="heatmap" element={<Heatmap />} />
             <Route path="approval" element={<ApprovalLayout />}>
               <Route path="" element={<Approval />} />

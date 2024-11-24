@@ -98,6 +98,7 @@ function RejectionModal({
 
               <Collapse in={rejectionReason.others}>
                 <TextField
+                  disabled={disabled}
                   fullWidth
                   placeholder="Specify here"
                   value={rejectionReason.specify}

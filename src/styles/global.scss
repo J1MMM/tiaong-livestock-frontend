@@ -85,18 +85,16 @@ body {
     box-sizing: border-box;
   }
 
-  &.active {
-    color: #fff;
+  &:hover {
     .hover {
-      background-color: #1975d08d;
+      background-color: #1975d015;
       border: 2px solid #1975d0;
     }
   }
-
-  &:hover {
+  &.active {
     color: #fff;
     .hover {
-      background-color: #1975d08d;
+      background-color: #1975d060;
       border: 2px solid #1975d0;
     }
   }
