@@ -55,6 +55,15 @@
   margin-bottom: 20px;
 }
 
+.gradient-bg {
+  background: rgb(0, 155, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 155, 255, 1) 0%,
+    rgba(0, 123, 255, 1) 51%
+  );
+}
+
 @keyframes slideShow {
   0%,
   100% {

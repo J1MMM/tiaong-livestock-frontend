@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   DataGrid,
   GridToolbarContainer,
@@ -24,40 +24,35 @@ const FarmersReports = () => {
   const contentRef = useRef(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
   const { farmersData, farmersDataLoading } = useData();
-  const [infoOpen, setInfoOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null);
+  const [filterModel, setFilterModel] = useState({});
+  const [filteredRows, setFilteredRows] = useState(farmersData); // assuming farmersData is fetched from API or state
+  console.log(filteredRows);
 
-  const handleInfoClick = (row) => {
-    setSelectedRow(row);
-    setInfoOpen(true);
+  const handleFilterChange = (newFilterModel) => {
+    setFilterModel(newFilterModel);
   };
 
-  const ActionButtonColumn = {
-    field: "actions",
-    headerName: "Actions",
-    width: 200,
-    editable: false,
-    headerClassName: "data-grid-header",
-    headerAlign: "center",
-    renderCell: (params) => (
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-        height="100%"
-        gap={1}
-      >
-        <Button
-          variant="contained"
-          color="info"
-          size="small"
-          onClick={() => handleInfoClick(params.row)}
-        >
-          Info
-        </Button>
-      </Stack>
-    ),
-  };
+  useEffect(() => {
+    if (filterModel?.items?.length > 0) {
+      const filteredData = farmersData.filter((row) => {
+        return filterModel.items.every((filter) => {
+          if (!filter.value) return true;
+
+          const rowValue =
+            row[filter.columnField]?.toString().toLowerCase() || "";
+          return rowValue.includes(filter.value.toLowerCase());
+        });
+      });
+
+      console.log("farmersData");
+      console.log(farmersData);
+
+      setFilteredRows(filteredData);
+    } else {
+      setFilteredRows(farmersData);
+    }
+  }, [filterModel, farmersData]);
+
   return (
     <>
       <DataGrid
@@ -74,6 +69,7 @@ const FarmersReports = () => {
         }}
         pageSizeOptions={[10, 50, 100]}
         disableRowSelectionOnClick
+        onFilterModelChange={handleFilterChange}
         sx={DATA_GRID_STYLE}
         disableColumnResize
         slots={{
@@ -101,23 +97,6 @@ const FarmersReports = () => {
             />
           ),
         }}
-      />
-
-      <InfoModal
-        open={infoOpen}
-        onClose={() => setInfoOpen(false)}
-        row={selectedRow}
-        actionButton={
-          <>
-            <Button
-              size="small"
-              variant="contained"
-              onClick={() => setInfoOpen(false)}
-            >
-              close
-            </Button>
-          </>
-        }
       />
 
       <div style={{ display: "none" }}>
@@ -174,7 +153,7 @@ const FarmersReports = () => {
               </tr>
             </thead>
             <tbody>
-              {farmersData?.map((obj, key) => (
+              {filteredRows?.map((obj, key) => (
                 <tr key={key}>
                   <td
                     style={{ padding: "8px", borderBottom: "1px solid #ddd" }}

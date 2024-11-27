@@ -71,28 +71,34 @@ const LoginPage = () => {
       height="100vh"
       justifyContent="center"
       alignItems="center"
-      bgcolor="primary.main"
+      bgcolor="#CBD6FF"
     >
       <Paper
+        elevation={5}
         onSubmit={handleSubmit}
         component="form"
         sx={{
-          p: 3,
-          width: "100%",
-          maxWidth: 350,
+          width: "50%",
+          maxWidth: "md",
           boxSizing: "border-box",
+          borderRadius: 5,
+          display: "flex",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
         <Stack
           gap={2}
-          width="100%"
+          width="50%"
           height="100%"
           justifyContent="center"
           alignItems="center"
+          padding={5}
+          boxSizing={"border-box"}
+          py={10}
         >
-          <img src={logo} style={{ maxWidth: 90 }} />
-          <Typography variant="h5" textAlign="center">
-            Tiaong Livestock Management System
+          <Typography variant="h3" textAlign="center" mb={3}>
+            Sign In
           </Typography>
           <TextField
             autoFocus
@@ -137,7 +143,7 @@ const LoginPage = () => {
               label="Password"
             />
           </FormControl>
-          <Stack width="100%" alignItems="start">
+          <Stack width="100%" alignItems="end">
             <Button
               size="small"
               sx={{
@@ -155,11 +161,24 @@ const LoginPage = () => {
             size="large"
             variant="contained"
             type="submit"
-            sx={{ width: "100%", mt: 1 }}
+            sx={{ mt: 1, px: 5 }}
           >
-            Login
+            Sign In
           </Button>
+
+          <Typography>Don't have an account? sign-up</Typography>
         </Stack>
+
+        <Box
+          className="gradient-bg"
+          width={"50%"}
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          borderRadius={3}
+        >
+          <img src={logo} style={{ maxWidth: 120, borderRadius: "100%" }} />
+        </Box>
       </Paper>
 
       <SnackBar

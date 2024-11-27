@@ -27,29 +27,29 @@ function App() {
         <Route element={<PersistLogin />}>
           <Route path="/login" element={<LoginPage />} />
 
-          {/* <Route element={<RequireAuth />}> */}
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Navigate to="dashboard" replace />} />
+          <Route element={<RequireAuth />}>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Navigate to="dashboard" replace />} />
 
-            <Route path="dashboard" element={<DashboardLayout />}>
-              <Route path="" element={<Dashboard />} />
-              <Route path="barangay" element={<BarangayDashB />} />
-              <Route path="livestock" element={<LivestockDashB />} />
-              <Route path="mortality" element={<MoratlityDashB />} />
+              <Route path="dashboard" element={<DashboardLayout />}>
+                <Route path="" element={<Dashboard />} />
+                <Route path="barangay" element={<BarangayDashB />} />
+                <Route path="livestock" element={<LivestockDashB />} />
+                <Route path="mortality" element={<MoratlityDashB />} />
+              </Route>
+              <Route path="heatmap" element={<Heatmap />} />
+              <Route path="approval" element={<ApprovalLayout />}>
+                <Route path="" element={<Approval />} />
+                <Route path="rejected" element={<RejectedPage />} />
+              </Route>
+              <Route path="farmers" element={<FarmersLayout />}>
+                <Route path="" element={<Farmers />} />
+                <Route path="archived" element={<FarmersArchived />} />
+                <Route path="reports" element={<FarmersReports />} />
+              </Route>
+              <Route path="announcement" element={<Announcement />} />
             </Route>
-            <Route path="heatmap" element={<Heatmap />} />
-            <Route path="approval" element={<ApprovalLayout />}>
-              <Route path="" element={<Approval />} />
-              <Route path="rejected" element={<RejectedPage />} />
-            </Route>
-            <Route path="farmers" element={<FarmersLayout />}>
-              <Route path="" element={<Farmers />} />
-              <Route path="archived" element={<FarmersArchived />} />
-              <Route path="reports" element={<FarmersReports />} />
-            </Route>
-            <Route path="announcement" element={<Announcement />} />
           </Route>
-          {/* </Route> */}
         </Route>
         <Route path="*" element={<Missing />} />
       </Routes>

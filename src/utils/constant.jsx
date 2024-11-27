@@ -378,7 +378,7 @@ export const REPORTS_TABLE_COLUMN = [
 
   {
     field: "barangay",
-    headerName: "Barangay",
+    headerName: "barangay",
     flex: 1,
     editable: false,
     headerClassName: "data-grid-header",
