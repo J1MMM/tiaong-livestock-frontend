@@ -1,51 +1,112 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  DataGrid,
-  GridToolbarContainer,
-  GridToolbarExport,
-  GridToolbarFilterButton,
-} from "@mui/x-data-grid";
-import {
-  APPROVAL_TABLE_COLUMN,
-  DATA_GRID_STYLE,
-  FARMERS_TABLE_COLUMN,
-  REPORTS_TABLE_COLUMN,
-} from "../../utils/constant";
+import { DataGrid } from "@mui/x-data-grid";
+import { DATA_GRID_STYLE, REPORTS_TABLE_COLUMN } from "../../utils/constant";
 import { TableToolbar } from "../../components/form/table/TableToolbar";
 import { Box, Button, Stack } from "@mui/material";
 import TableFilterBtn from "../../components/form/table/TableFilterBtn";
 import TableQuickFilter from "../../components/form/table/TableQuickFilter";
 import useData from "../../hooks/useData";
-import InfoModal from "../Approval/InfoModal";
-import { Print, PrintOutlined } from "@mui/icons-material";
+import { PrintOutlined } from "@mui/icons-material";
 import { useReactToPrint } from "react-to-print";
 
-const FarmersReports = () => {
-  const contentRef = useRef(null);
+const CustomToolbar = () => {
+  const { contentRef } = useData();
   const reactToPrintFn = useReactToPrint({ contentRef });
-  const { farmersData, farmersDataLoading } = useData();
-  const [filterModel, setFilterModel] = useState({});
+  return (
+    <TableToolbar
+      titleText="Farmer's Report"
+      subText="Insights into farmers' data and activities"
+      actionBtn={
+        <>
+          <Button
+            variant="outlined"
+            startIcon={<PrintOutlined />}
+            onClick={reactToPrintFn}
+            sx={{
+              padding: "5.5px 20px",
+              border: "1px solid #007bff",
+            }}
+          >
+            Print
+          </Button>
+          <TableFilterBtn />
+          <TableQuickFilter />
+        </>
+      }
+    />
+  );
+};
+
+const FarmersReports = () => {
+  // const contentRef = useRef(null);
+  // const reactToPrintFn = useReactToPrint({ contentRef });
+  const { farmersData, farmersDataLoading, contentRef } = useData();
+  const [filterModel, setFilterModel] = useState({
+    items: [],
+    quickFilterValues: [],
+  });
   const [filteredRows, setFilteredRows] = useState(farmersData); // assuming farmersData is fetched from API or state
-  console.log(filteredRows);
 
   const handleFilterChange = (newFilterModel) => {
     setFilterModel(newFilterModel);
   };
-
   useEffect(() => {
-    if (filterModel?.items?.length > 0) {
-      const filteredData = farmersData.filter((row) => {
-        return filterModel.items.every((filter) => {
-          if (!filter.value) return true;
+    const filterableFields = [
+      "fullname",
+      "barangay",
+      "longitude",
+      "latitude",
+      "contactNo",
+      "typeofFarm",
+      "totalFarmPopulation",
+      "rsbsaRegistered",
+      "referenceNo",
+      "bioSecLvl",
+    ];
 
-          const rowValue =
-            row[filter.columnField]?.toString().toLowerCase() || "";
+    if (
+      filterModel.items?.length > 0 ||
+      filterModel.quickFilterValues?.length > 0
+    ) {
+      const filteredData = farmersData.filter((row) => {
+        // Advanced filter logic (only for filterable fields)
+        const advancedFiltersMatch = filterModel.items?.every((filter) => {
+          if (!filter.value) return true;
+          if (!filterableFields.includes(filter.field)) return true; // Skip non-filterable fields
+
+          const rowValue = row[filter.field]?.toString().toLowerCase() || "";
           return rowValue.includes(filter.value.toLowerCase());
         });
-      });
 
-      console.log("farmersData");
-      console.log(farmersData);
+        // Quick filter logic (only for filterable fields)
+        const quickFilterMatch = filterModel.quickFilterValues?.every(
+          (searchValue) => {
+            const lowerCasedSearch = searchValue.toLowerCase();
+
+            // Recursive function to search through object fields
+            function searchObject(obj) {
+              for (let key in obj) {
+                if (filterableFields.includes(key)) {
+                  if (typeof obj[key] === "object" && obj[key] !== null) {
+                    if (searchObject(obj[key])) {
+                      return true;
+                    }
+                  } else if (
+                    String(obj[key]).toLowerCase().includes(lowerCasedSearch)
+                  ) {
+                    return true;
+                  }
+                }
+              }
+              return false;
+            }
+
+            return searchObject(row);
+          }
+        );
+
+        return advancedFiltersMatch && quickFilterMatch;
+      });
 
       setFilteredRows(filteredData);
     } else {
@@ -73,29 +134,7 @@ const FarmersReports = () => {
         sx={DATA_GRID_STYLE}
         disableColumnResize
         slots={{
-          toolbar: () => (
-            <TableToolbar
-              titleText="Farmer's Report"
-              subText="Insights into farmers' data and activities"
-              actionBtn={
-                <>
-                  <Button
-                    variant="outlined"
-                    startIcon={<PrintOutlined />}
-                    onClick={reactToPrintFn}
-                    sx={{
-                      padding: "5.5px 20px",
-                      border: "1px solid #007bff",
-                    }}
-                  >
-                    Print
-                  </Button>
-                  <TableFilterBtn />
-                  <TableQuickFilter />
-                </>
-              }
-            />
-          ),
+          toolbar: CustomToolbar,
         }}
       />
 
