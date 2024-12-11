@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.jpg";
 import {
@@ -17,7 +17,7 @@ import {
 import "./index.scss";
 import axios from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Verified, Visibility, VisibilityOff } from "@mui/icons-material";
 import SnackBar from "../../components/shared/SnackBar";
 import { ContainerModal } from "../../components/shared/ContainerModal";
 
@@ -43,6 +43,7 @@ const LoginPage = () => {
   const [newPassword1, setNewPassword1] = useState("");
   const [newPassword2, setNewPassword2] = useState("");
   const [otp, setOtp] = useState("");
+  const [id, setId] = useState("");
 
   const [sendOTPOpen, setSendOTPOpen] = useState(false);
   const [resetPassOpen, setResetPassOpen] = useState(false);
@@ -50,6 +51,11 @@ const LoginPage = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [alertSev, setAlertSev] = useState("success");
+
+  const [passNotMatch, setPassNotMatch] = useState(false);
+  const [emailDup, setEmailDup] = useState(false);
+
+  const [verificationOpen, setVerificationOpen] = useState(false);
 
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
@@ -79,9 +85,13 @@ const LoginPage = () => {
       } else {
         setErrMsg("Login Failed");
       }
+      setAlertSev("error");
+      setAlertMsg(error?.response?.data?.message);
+      setAlertOpen(true);
     }
     setDisabled(false);
   };
+
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     setDisabled(true);
@@ -94,18 +104,33 @@ const LoginPage = () => {
         password: password1,
         password2: password2,
       });
-      console.log(response.data);
+      setId(response.data?.result?._id);
       setEmail2("");
       setPassword1("");
       setPassword2("");
       setFirstname("");
       setLastname("");
       setMiddlename("");
-      setSnackOpen(true);
+
+      setAlertSev("success");
+      setAlertMsg(response?.data?.success);
+      setAlertOpen(true);
       setErrMsg("");
+      setVerificationOpen(true);
     } catch (error) {
       console.log(error);
-      setErrMsg(error?.response?.data?.message);
+      setAlertSev("error");
+      setAlertMsg(error?.response?.data?.message);
+      setAlertOpen(true);
+      if (error?.response?.data?.message == "Password do not match") {
+        setPassNotMatch(true);
+      } else if (
+        error?.response?.data?.message == "This Email Address is Already in use"
+      ) {
+        setEmailDup(true);
+      } else {
+        setErrMsg(error?.response?.data?.message);
+      }
     }
     setDisabled(false);
   };
@@ -134,6 +159,34 @@ const LoginPage = () => {
 
     setDisabled(false);
   };
+
+  const handleSubmitVerification = async (e) => {
+    e.preventDefault();
+    setErrMsg("");
+    setDisabled(true);
+    try {
+      const response = await axios.post("/users/verify", {
+        otp,
+        id,
+      });
+
+      setVerificationOpen(false);
+      setAlertSev("success");
+      setAlertMsg("OTP VERIFIED SUCCESSFULLY");
+      setAlertOpen(true);
+
+      setOtp("");
+      setId("");
+    } catch (error) {
+      console.log(error);
+      setAlertSev("error");
+      setAlertMsg(error?.response?.data?.message);
+      setAlertOpen(true);
+    }
+
+    setDisabled(false);
+  };
+
   const handleResetPassSubmit = async (e) => {
     e.preventDefault();
     setErrMsg("");
@@ -159,6 +212,27 @@ const LoginPage = () => {
     }
     setDisabled(false);
   };
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [
+    email,
+    password,
+    firstname,
+    lastname,
+    middlename,
+    email2,
+    password1,
+    password2,
+  ]);
+
+  useEffect(() => {
+    setPassNotMatch(false);
+  }, [password1, password2]);
+
+  useEffect(() => {
+    setEmailDup(false);
+  }, [email2]);
 
   if (auth?.accessToken) {
     return <Navigate to="/" />;
@@ -284,7 +358,11 @@ const LoginPage = () => {
                 p: 0,
                 textTransform: "none",
               }}
-              onClick={() => setLoginShow((prev) => !prev)}
+              onClick={() => {
+                setErrMsg("");
+                setPassNotMatch(false);
+                setLoginShow((prev) => !prev);
+              }}
             >
               sign-up
             </Button>
@@ -353,7 +431,7 @@ const LoginPage = () => {
             name="email"
             required
             type="email"
-            error={errMsg ? true : false}
+            error={emailDup}
             disabled={disabled ? true : false}
             value={email2}
             onChange={(e) => setEmail2(e.target.value)}
@@ -369,7 +447,7 @@ const LoginPage = () => {
               value={password1}
               onChange={(e) => setPassword1(e.target.value)}
               required
-              error={errMsg ? true : false}
+              error={passNotMatch}
               disabled={disabled ? true : false}
               endAdornment={
                 <InputAdornment position="end">
@@ -398,7 +476,7 @@ const LoginPage = () => {
               value={password2}
               onChange={(e) => setPassword2(e.target.value)}
               required
-              error={errMsg ? true : false}
+              error={passNotMatch}
               disabled={disabled ? true : false}
               endAdornment={
                 <InputAdornment position="end">
@@ -423,6 +501,7 @@ const LoginPage = () => {
             variant="contained"
             type="submit"
             sx={{ mt: 1, px: 5 }}
+            disabled={disabled}
           >
             Register
           </Button>
@@ -437,7 +516,11 @@ const LoginPage = () => {
                 p: 0,
                 textTransform: "none",
               }}
-              onClick={() => setLoginShow((prev) => !prev)}
+              onClick={() => {
+                setErrMsg("");
+                setPassNotMatch(false);
+                setLoginShow((prev) => !prev);
+              }}
             >
               sign-in
             </Button>
@@ -457,29 +540,21 @@ const LoginPage = () => {
 
       <SnackBar
         position={{ horizontal: "center", vertical: "top" }}
-        onClose={() => {}}
-        open={Boolean(errMsg)}
-        msg={errMsg}
-        severity="error"
-      />
-
-      <SnackBar
-        position={{ horizontal: "center", vertical: "top" }}
-        onClose={() => setSnackOpen(false)}
+        onClose={setSnackOpen}
         open={snackOpen}
         msg={"New user has been created successfully!"}
       />
 
       <SnackBar
         position={{ horizontal: "center", vertical: "top" }}
-        onClose={() => setSnackOpen(false)}
+        onClose={setSnackOpen}
         open={snackOpen}
         msg={"New user has been created successfully!"}
       />
 
       <SnackBar
         position={{ horizontal: "center", vertical: "top" }}
-        onClose={() => setAlertOpen(false)}
+        onClose={setAlertOpen}
         open={alertOpen}
         msg={alertMsg}
         severity={alertSev}
@@ -559,6 +634,40 @@ const LoginPage = () => {
           fullWidth
           value={newPassword2}
           onChange={(e) => setNewPassword2(e.target.value)}
+          required
+          error={errMsg ? true : false}
+          disabled={disabled ? true : false}
+        />
+      </ContainerModal>
+
+      <ContainerModal
+        maxWidth="xs"
+        title="Verify your account"
+        open={verificationOpen}
+        onClose={() => {
+          setOtp("");
+          setVerificationOpen(false);
+        }}
+        onSubmit={handleSubmitVerification}
+        actionButton={
+          <Button
+            variant="contained"
+            size="small"
+            type="submit"
+            disabled={disabled}
+          >
+            Submit
+          </Button>
+        }
+      >
+        <TextField
+          autoFocus
+          label="Enter your OTP"
+          variant="outlined"
+          fullWidth
+          name="otp"
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
           required
           error={errMsg ? true : false}
           disabled={disabled ? true : false}

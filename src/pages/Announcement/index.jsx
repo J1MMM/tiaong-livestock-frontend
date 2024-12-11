@@ -147,14 +147,13 @@ const Announcement = () => {
 
         <Stack
           mt={3}
-          gap={2}
-          width="100%"
-          display={"flex"}
-          flexDirection={"row"}
-          flexWrap={"wrap"}
-          alignContent="flex-start"
           height={"calc(100vh - 160px)"}
           p={2}
+          display={"grid"}
+          gridTemplateColumns={"auto auto auto"}
+          justifyContent={"flex-start"}
+          alignContent={"flex-start"}
+          gap={2}
           sx={{
             overflowY: "scroll",
           }}

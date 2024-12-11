@@ -37,6 +37,7 @@ const LivestockDashB = () => {
         series={[
           {
             data: data,
+            arcLabel: "formattedValue",
             highlightScope: { faded: "global", highlighted: "item" },
             faded: { innerRadius: 20, additionalRadius: -30, color: "gray" },
             innerRadius: 30,

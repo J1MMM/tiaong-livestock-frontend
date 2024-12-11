@@ -11,15 +11,32 @@ import TableFilterBtn from "../../components/form/table/TableFilterBtn";
 import TableQuickFilter from "../../components/form/table/TableQuickFilter";
 import useData from "../../hooks/useData";
 import InfoModal from "../Approval/InfoModal";
+import axios from "../../api/axios";
+import { useQueryClient } from "react-query";
 
 const FarmersArchived = () => {
   const { farmersArchivedData, farmersArchivedDataLoading } = useData();
   const [infoOpen, setInfoOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  const queryClient = useQueryClient();
 
   const handleInfoClick = (row) => {
     setSelectedRow(row);
     setInfoOpen(true);
+  };
+
+  const handleRestore = async () => {
+    try {
+      const response = await axios.post("/farmers/restore", {
+        id: selectedRow.id,
+      });
+
+      setInfoOpen(false);
+      await queryClient.invalidateQueries("farmersArchivedData");
+      await queryClient.invalidateQueries("farmersData");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const ActionButtonColumn = {
@@ -86,6 +103,11 @@ const FarmersArchived = () => {
         open={infoOpen}
         onClose={() => setInfoOpen(false)}
         row={selectedRow}
+        actionButton={
+          <Button size="small" variant="contained" onClick={handleRestore}>
+            restore
+          </Button>
+        }
       />
     </>
   );

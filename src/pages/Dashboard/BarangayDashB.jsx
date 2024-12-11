@@ -59,11 +59,20 @@ const BarangayDashB = () => {
       subText="Overview of livestock distribution across barangays"
     >
       <PieChart
+        labelStyle={{
+          fill: "white",
+          fontSize: "10px",
+        }}
         series={[
           {
             data: data,
-            highlightScope: { faded: "global", highlighted: "item" },
-            faded: { innerRadius: 20, additionalRadius: -30, color: "gray" },
+            arcLabel: "value",
+            highlightScope: { faded: "series", highlighted: "item" },
+            faded: {
+              innerRadius: 20,
+              additionalRadius: -30,
+              color: "gray",
+            },
             innerRadius: 30,
             cornerRadius: 5,
             startAngle: -180,
