@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useRef } from "react";
 import { useQuery } from "react-query";
 import { fetchApprovalData, fetchRejectedData } from "../api/approvalAPI";
 import { fetchFarmersArchivedData, fetchFarmersData } from "../api/farmersAPI";
@@ -46,6 +46,8 @@ export const DataProvider = ({ children }) => {
     fetchBarangayRecordData
   );
 
+  const contentRef = useRef(null);
+
   return (
     <DataContext.Provider
       value={{
@@ -62,6 +64,7 @@ export const DataProvider = ({ children }) => {
         totalLivestock,
         yearlyRecordsData,
         barangayRecordData,
+        contentRef,
       }}
     >
       {children}
