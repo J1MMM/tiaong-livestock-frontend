@@ -18,8 +18,8 @@ import logo from "../assets/images/logo.jpg";
 import { Avatar, Badge, Button, Stack, styled } from "@mui/material";
 import dayjs from "dayjs";
 
-export const BASE_URL = "https://tiaong-livestock-backend.onrender.com";
-// export const BASE_URL = "http://localhost:3500";
+// export const BASE_URL = "https://tiaong-livestock-backend.onrender.com";
+export const BASE_URL = "http://localhost:3500";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {

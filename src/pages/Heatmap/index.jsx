@@ -32,12 +32,6 @@ const GMAP_LIBRARIES = ["visualization"];
 
 function Heatmap() {
   const { livestockData, totalLivestock } = useData();
-
-  console.log("livestockData");
-  console.log(livestockData);
-  console.log("totalLivestock");
-  console.log(totalLivestock);
-
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: import.meta.env.VITE_MAP_API_KEY,
@@ -131,26 +125,26 @@ function Heatmap() {
 
         <Stack gap={2}>
           <Stack direction="row" width="100%" justifyContent="center" gap={2}>
-            {LIVESTOCK?.map((obj, i) => (
+            {LIVESTOCK.map((obj, i) => (
               <button
                 key={i}
                 variant="outlined"
                 className={`livestock-btn ${
-                  obj?.name?.toLowerCase() == activeLivestock &&
+                  obj.name?.toLowerCase() == activeLivestock &&
                   activeCategory == "livestock"
                     ? "active"
                     : ""
                 }`}
                 onClick={() => {
                   setActiveCategory("livestock");
-                  setActiveLivestock(obj?.name?.toLowerCase());
+                  setActiveLivestock(obj.name?.toLowerCase());
                 }}
               >
                 <div className="hover" />
 
-                <img style={{ maxWidth: 42 }} src={obj?.img} alt={obj?.name} />
+                <img style={{ maxWidth: 42 }} src={obj?.img} alt={obj.name} />
                 <Typography variant="body2" fontWeight={600} mt={1} zIndex={1}>
-                  {obj?.name}
+                  {obj.name}
                 </Typography>
                 <Typography
                   variant="body2"
@@ -159,33 +153,30 @@ function Heatmap() {
                   color="#007bff"
                   fontWeight="bold"
                 >
-                  Total:
-                  {totalLivestock?.length > 0
-                    ? totalLivestock?.livestock[obj?.name?.toLowerCase()]
-                    : 0}
+                  Total: {totalLivestock?.livestock[obj.name?.toLowerCase()]}
                 </Typography>
               </button>
             ))}
           </Stack>
           <Stack direction="row" width="100%" justifyContent="center" gap={2}>
-            {MORTALITY?.map((obj, i) => (
+            {MORTALITY.map((obj, i) => (
               <button
                 key={i}
                 variant="outlined"
                 className={`livestock-btn mortality ${
-                  obj?.name?.toLowerCase() == activeLivestock &&
+                  obj.name?.toLowerCase() == activeLivestock &&
                   activeCategory == "mortality"
                     ? "active"
                     : ""
                 }`}
                 onClick={() => {
                   setActiveCategory("mortality");
-                  setActiveLivestock(obj?.name?.toLowerCase());
+                  setActiveLivestock(obj.name?.toLowerCase());
                 }}
               >
                 <div className="hover" />
 
-                <img style={{ maxWidth: 32 }} src={obj?.img} alt={obj?.name} />
+                <img style={{ maxWidth: 32 }} src={obj?.img} alt={obj.name} />
                 <Typography
                   component="span"
                   variant="body2"
@@ -193,7 +184,7 @@ function Heatmap() {
                   mt={1}
                   zIndex={1}
                 >
-                  {obj?.name}
+                  {obj.name}
                 </Typography>
                 <Typography
                   component="span"
@@ -203,10 +194,7 @@ function Heatmap() {
                   color="#007bff"
                   fontWeight="bold"
                 >
-                  Total:
-                  {totalLivestock?.length > 0
-                    ? totalLivestock?.mortality[obj.name?.toLowerCase()]
-                    : 0}
+                  Total: {totalLivestock?.mortality[obj.name?.toLowerCase()]}
                 </Typography>
               </button>
             ))}
