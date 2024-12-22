@@ -75,129 +75,156 @@ function Heatmap() {
       titleText="Livestock Tiaong Heatmap"
       subText="Livestock Tiaong Heatmap"
     >
-      <Stack width="100%" height="100%" boxSizing="border-box" gap={1}>
-        <Box
-          border="1px solid #1976D2"
-          width="100%"
-          height={"100%"}
-          borderRadius={2}
-          overflow="hidden"
-        >
-          <GoogleMap
-            mapContainerStyle={{
-              width: "100%",
-              height: "100%",
-            }}
-            center={GMAP_CENTER}
-            zoom={12.5}
-            onLoad={onLoad}
-            onUnmount={onUnmount}
+      <Stack direction="row" gap={2} height="100%">
+        <Stack width="100%" height="100%" boxSizing="border-box" gap={1}>
+          <Box
+            border="1px solid #1976D2"
+            width="100%"
+            height={"100%"}
+            borderRadius={2}
+            overflow="hidden"
           >
-            <Polygon
-              paths={tiaongPolygonCoordinates}
-              options={{
-                strokeColor: "#1976D2",
-                strokeOpacity: 0.8,
-                strokeWeight: 1,
-                //   fillColor: "#FF0000",
-                fillOpacity: 0,
+            <GoogleMap
+              mapContainerStyle={{
+                width: "100%",
+                height: "100%",
               }}
-            />
-            <HeatmapLayer
-              data={
-                (livestockData &&
-                  livestockData.map((obj) => ({
-                    location: setLocFormat(
-                      BRGY_COOR[obj?.barangay].lat,
-                      BRGY_COOR[obj?.barangay].lng
-                    ),
-                    weight: obj?.[activeCategory]?.[activeLivestock] || 0.01,
-                  }))) ||
-                []
-              }
-              options={{
-                radius: 50,
-                opacity: 0.8,
-              }}
-            />
-          </GoogleMap>
-        </Box>
-
-        <Stack gap={2}>
-          <Stack direction="row" width="100%" justifyContent="center" gap={2}>
-            {LIVESTOCK.map((obj, i) => (
-              <button
-                key={i}
-                variant="outlined"
-                className={`livestock-btn ${
-                  obj.name?.toLowerCase() == activeLivestock &&
-                  activeCategory == "livestock"
-                    ? "active"
-                    : ""
-                }`}
-                onClick={() => {
-                  setActiveCategory("livestock");
-                  setActiveLivestock(obj.name?.toLowerCase());
+              center={GMAP_CENTER}
+              zoom={12.5}
+              onLoad={onLoad}
+              onUnmount={onUnmount}
+            >
+              <Polygon
+                paths={tiaongPolygonCoordinates}
+                options={{
+                  strokeColor: "#1976D2",
+                  strokeOpacity: 0.8,
+                  strokeWeight: 1,
+                  //   fillColor: "#FF0000",
+                  fillOpacity: 0,
                 }}
-              >
-                <div className="hover" />
+              />
+              <HeatmapLayer
+                data={
+                  (livestockData &&
+                    livestockData.map((obj) => ({
+                      location: setLocFormat(
+                        BRGY_COOR[obj?.barangay].lat,
+                        BRGY_COOR[obj?.barangay].lng
+                      ),
+                      weight: obj?.[activeCategory]?.[activeLivestock] || 0.01,
+                    }))) ||
+                  []
+                }
+                options={{
+                  radius: 50,
+                  opacity: 0.8,
+                }}
+              />
+            </GoogleMap>
+          </Box>
 
-                <img style={{ maxWidth: 42 }} src={obj?.img} alt={obj.name} />
-                <Typography variant="body2" fontWeight={600} mt={1} zIndex={1}>
-                  {obj.name}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  fontSize={10}
-                  zIndex={1}
-                  color="#007bff"
-                  fontWeight="bold"
+          <Stack gap={2}>
+            <Stack direction="row" width="100%" justifyContent="center" gap={2}>
+              {LIVESTOCK.map((obj, i) => (
+                <button
+                  key={i}
+                  variant="outlined"
+                  className={`livestock-btn ${
+                    obj.name?.toLowerCase() == activeLivestock &&
+                    activeCategory == "livestock"
+                      ? "active"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    setActiveCategory("livestock");
+                    setActiveLivestock(obj.name?.toLowerCase());
+                  }}
                 >
-                  Total: {totalLivestock?.livestock[obj.name?.toLowerCase()]}
-                </Typography>
-              </button>
-            ))}
+                  <div className="hover" />
+
+                  <img style={{ maxWidth: 42 }} src={obj?.img} alt={obj.name} />
+                  <Typography
+                    variant="body2"
+                    fontWeight={600}
+                    mt={1}
+                    zIndex={1}
+                  >
+                    {obj.name}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    fontSize={10}
+                    zIndex={1}
+                    color="#007bff"
+                    fontWeight="bold"
+                  >
+                    Total: {totalLivestock?.livestock[obj.name?.toLowerCase()]}
+                  </Typography>
+                </button>
+              ))}
+            </Stack>
+            <Stack direction="row" width="100%" justifyContent="center" gap={2}>
+              {MORTALITY.map((obj, i) => (
+                <button
+                  key={i}
+                  variant="outlined"
+                  className={`livestock-btn mortality ${
+                    obj.name?.toLowerCase() == activeLivestock &&
+                    activeCategory == "mortality"
+                      ? "active"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    setActiveCategory("mortality");
+                    setActiveLivestock(obj.name?.toLowerCase());
+                  }}
+                >
+                  <div className="hover" />
+
+                  <img style={{ maxWidth: 32 }} src={obj?.img} alt={obj.name} />
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    fontWeight={600}
+                    mt={1}
+                    zIndex={1}
+                  >
+                    {obj.name}
+                  </Typography>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    fontSize={10}
+                    zIndex={1}
+                    color="#007bff"
+                    fontWeight="bold"
+                  >
+                    Total: {totalLivestock?.mortality[obj.name?.toLowerCase()]}
+                  </Typography>
+                </button>
+              ))}
+            </Stack>
           </Stack>
-          <Stack direction="row" width="100%" justifyContent="center" gap={2}>
-            {MORTALITY.map((obj, i) => (
-              <button
-                key={i}
-                variant="outlined"
-                className={`livestock-btn mortality ${
-                  obj.name?.toLowerCase() == activeLivestock &&
-                  activeCategory == "mortality"
-                    ? "active"
-                    : ""
-                }`}
-                onClick={() => {
-                  setActiveCategory("mortality");
-                  setActiveLivestock(obj.name?.toLowerCase());
-                }}
-              >
-                <div className="hover" />
-
-                <img style={{ maxWidth: 32 }} src={obj?.img} alt={obj.name} />
-                <Typography
-                  component="span"
-                  variant="body2"
-                  fontWeight={600}
-                  mt={1}
-                  zIndex={1}
-                >
-                  {obj.name}
-                </Typography>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  fontSize={10}
-                  zIndex={1}
-                  color="#007bff"
-                  fontWeight="bold"
-                >
-                  Total: {totalLivestock?.mortality[obj.name?.toLowerCase()]}
-                </Typography>
-              </button>
-            ))}
+        </Stack>
+        <Stack boxSizing="border-box" minWidth={250} gap={2} py={3}>
+          <Stack direction="row" gap={1} alignItems="center">
+            <Box bgcolor="#FB312F" height={24} width={24} />
+            <Typography variant="body2">
+              High Frequency (100+ livestocks)
+            </Typography>
+          </Stack>
+          <Stack direction="row" gap={1} alignItems="center">
+            <Box bgcolor="#E3FB2D" height={24} width={24} />
+            <Typography variant="body2">
+              Moderate Frequency (50-99 livestocks)
+            </Typography>
+          </Stack>
+          <Stack direction="row" gap={1} alignItems="center">
+            <Box bgcolor="#82FE2B" height={24} width={24} />
+            <Typography variant="body2">
+              Low Frequency (0-49 livestocks)
+            </Typography>
           </Stack>
         </Stack>
       </Stack>

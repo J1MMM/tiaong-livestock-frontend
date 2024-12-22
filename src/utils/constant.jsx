@@ -17,6 +17,7 @@ import horseM from "../assets/images/horse-mortality.webp";
 import logo from "../assets/images/logo.jpg";
 import { Avatar, Badge, Button, Stack, styled } from "@mui/material";
 import dayjs from "dayjs";
+import { getGridStringOperators } from "@mui/x-data-grid";
 
 // export const BASE_URL = "https://tiaong-livestock-backend.onrender.com";
 export const BASE_URL = "http://localhost:3500";
@@ -168,7 +169,7 @@ export const FARMERS_TABLE_COLUMN = [
   {
     field: "photo",
     headerName: "Photo",
-    flex: 1,
+    width: 100,
     editable: false,
     headerClassName: "data-grid-header",
     headerAlign: "center",
@@ -191,7 +192,7 @@ export const FARMERS_TABLE_COLUMN = [
   {
     field: "fullname",
     headerName: "Name",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
   },
@@ -199,28 +200,28 @@ export const FARMERS_TABLE_COLUMN = [
   {
     field: "sex",
     headerName: "Sex",
-    flex: 1,
+    width: 100,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "barangay",
     headerName: "Address",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "contactNo",
     headerName: "Contact No.",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "birthDate",
     headerName: "Birth date",
-    flex: 1,
+    width: 100,
     editable: false,
     headerClassName: "data-grid-header",
     renderCell: (params) => {
@@ -230,7 +231,7 @@ export const FARMERS_TABLE_COLUMN = [
   {
     field: "civilStatus",
     headerName: "Civil Status",
-    flex: 1,
+    width: 100,
     editable: false,
     headerClassName: "data-grid-header",
     align: "center",
@@ -239,7 +240,7 @@ export const FARMERS_TABLE_COLUMN = [
   {
     field: "PWD",
     headerName: "PWD",
-    flex: 1,
+    width: 100,
     editable: false,
     headerClassName: "data-grid-header",
     align: "center",
@@ -248,7 +249,7 @@ export const FARMERS_TABLE_COLUMN = [
   {
     field: "_4ps",
     headerName: "4P's Beneficiary",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
     align: "center",
@@ -257,14 +258,14 @@ export const FARMERS_TABLE_COLUMN = [
   {
     field: "livelihood",
     headerName: "Main Livelihood",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "contactPersonToNotifyInCaseEmergency",
     headerName: "Emergency Phone No.",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
   },
@@ -274,7 +275,7 @@ export const APPROVAL_TABLE_COLUMN = [
   {
     field: "photo",
     headerName: "Photo",
-    flex: 1,
+    width: 100,
     editable: false,
     headerClassName: "data-grid-header",
     headerAlign: "center",
@@ -291,7 +292,7 @@ export const APPROVAL_TABLE_COLUMN = [
   {
     field: "fullname",
     headerName: "Name",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
   },
@@ -299,35 +300,35 @@ export const APPROVAL_TABLE_COLUMN = [
   {
     field: "sex",
     headerName: "Sex",
-    flex: 1,
+    width: 100,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "barangay",
     headerName: "Address",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "contactNo",
     headerName: "Contact No.",
-    flex: 1,
+    width: 100,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "birthDate",
     headerName: "Birth date",
-    flex: 1,
+    width: 100,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "civilStatus",
     headerName: "Civil Status",
-    flex: 1,
+    width: 100,
     editable: false,
     headerClassName: "data-grid-header",
     align: "center",
@@ -336,7 +337,7 @@ export const APPROVAL_TABLE_COLUMN = [
   {
     field: "PWD",
     headerName: "PWD",
-    flex: 1,
+    width: 100,
     editable: false,
     headerClassName: "data-grid-header",
     align: "center",
@@ -345,7 +346,7 @@ export const APPROVAL_TABLE_COLUMN = [
   {
     field: "_4ps",
     headerName: "4P's Beneficiary",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
     align: "center",
@@ -354,14 +355,14 @@ export const APPROVAL_TABLE_COLUMN = [
   {
     field: "livelihood",
     headerName: "Main Livelihood",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "contactPersonToNotifyInCaseEmergency",
     headerName: "Emergency Phone No.",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
   },
@@ -371,43 +372,46 @@ export const REPORTS_TABLE_COLUMN = [
   {
     field: "fullname",
     headerName: "Name of Farmer",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
+    // filterOperators: getGridStringOperators().filter(
+    //   (operator) => operator.value === "contains"
+    // ),
   },
 
   {
     field: "barangay",
     headerName: "barangay",
-    flex: 1,
+    width: 100,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "longitude",
     headerName: "Longitude",
-    flex: 1,
+    width: 100,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "latitude",
     headerName: "Latitude",
-    flex: 1,
+    width: 100,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "contactNo",
     headerName: "Contact Details",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "typeofFarm",
     headerName: "Type of Form (CM, SC, SH)",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
     align: "center",
@@ -415,7 +419,7 @@ export const REPORTS_TABLE_COLUMN = [
   {
     field: "totalFarmPopulation",
     headerName: "Total Farm Population",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
     align: "center",
@@ -423,21 +427,21 @@ export const REPORTS_TABLE_COLUMN = [
   {
     field: "rsbsaRegistered",
     headerName: "RSBSA Registered",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "referenceNo",
     headerName: "RSBSA Control No.",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
   },
   {
     field: "bioSecLvl",
     headerName: "Biosecurrity Level(0,1,2)",
-    flex: 1,
+    width: 200,
     editable: false,
     headerClassName: "data-grid-header",
     align: "center",

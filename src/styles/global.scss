@@ -104,6 +104,15 @@ body {
   -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.08);
 }
 
+.gradient-bg {
+  background: rgb(0, 155, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 155, 255, 1) 0%,
+    rgba(0, 123, 255, 1) 51%
+  );
+}
+
 .MuiDataGrid-virtualScroller,
 .MuiToolbar-root {
   border: 1px solid #eee;

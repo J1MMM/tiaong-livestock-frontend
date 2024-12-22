@@ -117,10 +117,14 @@ const FarmersReports = () => {
   return (
     <>
       <DataGrid
+        componen
         loading={farmersDataLoading}
         rows={farmersData}
         columns={REPORTS_TABLE_COLUMN}
         initialState={{
+          filter: {
+            filterModel: { items: [] },
+          },
           pagination: {
             paginationModel: {
               pageSize: 100,
