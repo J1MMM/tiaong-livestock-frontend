@@ -25,6 +25,8 @@ const RejectedPage = () => {
     editable: false,
     headerClassName: "data-grid-header",
     headerAlign: "center",
+    filterable: false,
+
     renderCell: (params) => (
       <Stack
         direction="row"

@@ -173,6 +173,8 @@ export const FARMERS_TABLE_COLUMN = [
     editable: false,
     headerClassName: "data-grid-header",
     headerAlign: "center",
+    filterable: false,
+
     renderCell: (params) => (
       <Stack justifyContent="center" alignItems="center" height="100%">
         <StyledBadge
@@ -217,6 +219,7 @@ export const FARMERS_TABLE_COLUMN = [
     width: 200,
     editable: false,
     headerClassName: "data-grid-header",
+    filterable: false,
   },
   {
     field: "birthDate",
@@ -224,6 +227,8 @@ export const FARMERS_TABLE_COLUMN = [
     width: 100,
     editable: false,
     headerClassName: "data-grid-header",
+    filterable: false,
+
     renderCell: (params) => {
       return dayjs(params?.rows?.birthDate).format("MM/DD/YYYY");
     },
@@ -236,6 +241,7 @@ export const FARMERS_TABLE_COLUMN = [
     headerClassName: "data-grid-header",
     align: "center",
     headerAlign: "center",
+    filterable: false,
   },
   {
     field: "PWD",
@@ -245,6 +251,7 @@ export const FARMERS_TABLE_COLUMN = [
     headerClassName: "data-grid-header",
     align: "center",
     headerAlign: "center",
+    filterable: false,
   },
   {
     field: "_4ps",
@@ -254,6 +261,7 @@ export const FARMERS_TABLE_COLUMN = [
     headerClassName: "data-grid-header",
     align: "center",
     headerAlign: "center",
+    filterable: false,
   },
   {
     field: "livelihood",
@@ -268,6 +276,7 @@ export const FARMERS_TABLE_COLUMN = [
     width: 200,
     editable: false,
     headerClassName: "data-grid-header",
+    filterable: false,
   },
 ];
 
@@ -279,6 +288,7 @@ export const APPROVAL_TABLE_COLUMN = [
     editable: false,
     headerClassName: "data-grid-header",
     headerAlign: "center",
+    filterable: false,
     renderCell: (params) => (
       <Stack justifyContent="center" alignItems="center" height="100%">
         <Avatar
@@ -317,6 +327,7 @@ export const APPROVAL_TABLE_COLUMN = [
     width: 100,
     editable: false,
     headerClassName: "data-grid-header",
+    filterable: false,
   },
   {
     field: "birthDate",
@@ -324,6 +335,7 @@ export const APPROVAL_TABLE_COLUMN = [
     width: 100,
     editable: false,
     headerClassName: "data-grid-header",
+    filterable: false,
   },
   {
     field: "civilStatus",
@@ -333,6 +345,7 @@ export const APPROVAL_TABLE_COLUMN = [
     headerClassName: "data-grid-header",
     align: "center",
     headerAlign: "center",
+    filterable: false,
   },
   {
     field: "PWD",
@@ -342,6 +355,7 @@ export const APPROVAL_TABLE_COLUMN = [
     headerClassName: "data-grid-header",
     align: "center",
     headerAlign: "center",
+    filterable: false,
   },
   {
     field: "_4ps",
@@ -351,6 +365,7 @@ export const APPROVAL_TABLE_COLUMN = [
     headerClassName: "data-grid-header",
     align: "center",
     headerAlign: "center",
+    filterable: false,
   },
   {
     field: "livelihood",
@@ -365,6 +380,7 @@ export const APPROVAL_TABLE_COLUMN = [
     width: 200,
     editable: false,
     headerClassName: "data-grid-header",
+    filterable: false,
   },
 ];
 
@@ -393,6 +409,7 @@ export const REPORTS_TABLE_COLUMN = [
     width: 100,
     editable: false,
     headerClassName: "data-grid-header",
+    filterable: false,
   },
   {
     field: "latitude",
@@ -400,6 +417,7 @@ export const REPORTS_TABLE_COLUMN = [
     width: 100,
     editable: false,
     headerClassName: "data-grid-header",
+    filterable: false,
   },
   {
     field: "contactNo",
@@ -407,6 +425,7 @@ export const REPORTS_TABLE_COLUMN = [
     width: 200,
     editable: false,
     headerClassName: "data-grid-header",
+    filterable: false,
   },
   {
     field: "typeofFarm",
@@ -423,6 +442,7 @@ export const REPORTS_TABLE_COLUMN = [
     editable: false,
     headerClassName: "data-grid-header",
     align: "center",
+    filterable: false,
   },
   {
     field: "rsbsaRegistered",
@@ -430,6 +450,7 @@ export const REPORTS_TABLE_COLUMN = [
     width: 200,
     editable: false,
     headerClassName: "data-grid-header",
+    filterable: false,
   },
   {
     field: "referenceNo",
