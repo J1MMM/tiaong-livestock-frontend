@@ -8,6 +8,7 @@ const DashboardLayout = () => {
       tabs={[
         { to: "", label: "Yearly Records" },
         { to: "barangay", label: "Barangay Records" },
+        { to: "farmers-per-brgy", label: "Farmers" },
         { to: "livestock", label: "Livestock" },
         { to: "mortality", label: "Mortality" },
       ]}

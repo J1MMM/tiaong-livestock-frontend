@@ -13,16 +13,25 @@ import useData from "../../hooks/useData";
 import InfoModal from "../Approval/InfoModal";
 import axios from "../../api/axios";
 import { useQueryClient } from "react-query";
+import SnackBar from "../../components/shared/SnackBar";
+import ConfirmationDialog from "../../components/shared/ConfirmationDialog";
 
 const FarmersArchived = () => {
   const { farmersArchivedData, farmersArchivedDataLoading } = useData();
   const [infoOpen, setInfoOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const queryClient = useQueryClient();
+  const [alert, setAlert] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const handleInfoClick = (row) => {
     setSelectedRow(row);
     setInfoOpen(true);
+  };
+
+  const handleAlertShow = () => {
+    setDialogOpen(true);
   };
 
   const handleRestore = async () => {
@@ -30,7 +39,8 @@ const FarmersArchived = () => {
       const response = await axios.post("/farmers/restore", {
         id: selectedRow.id,
       });
-
+      setDialogOpen(false);
+      setAlert(true);
       setInfoOpen(false);
       await queryClient.invalidateQueries("farmersArchivedData");
       await queryClient.invalidateQueries("farmersData");
@@ -106,10 +116,27 @@ const FarmersArchived = () => {
         onClose={() => setInfoOpen(false)}
         row={selectedRow}
         actionButton={
-          <Button size="small" variant="contained" onClick={handleRestore}>
+          <Button size="small" variant="contained" onClick={handleAlertShow}>
             restore
           </Button>
         }
+      />
+
+      <SnackBar
+        position={{ horizontal: "center", vertical: "top" }}
+        onClose={setAlert}
+        open={alert}
+        msg={"Farmer restored successfully"}
+      />
+
+      <ConfirmationDialog
+        confirm={handleRestore}
+        content={"Are you sure you want to restore this farmer?"}
+        disabled={disabled}
+        open={dialogOpen}
+        setOpen={setDialogOpen}
+        serverity={"info"}
+        title={"Restore Farmer"}
       />
     </>
   );

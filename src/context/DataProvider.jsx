@@ -8,6 +8,7 @@ import {
   fetchTotalLivestock,
   fetchYearlyRecordData,
   fetchBarangayRecordData,
+  fetchFarmersRecordData,
 } from "../api/livestockAPI";
 
 const DataContext = createContext({});
@@ -45,6 +46,10 @@ export const DataProvider = ({ children }) => {
     "barangayRecordData",
     fetchBarangayRecordData
   );
+  const { data: farmersPerBarangay } = useQuery(
+    "farmersPerBarangay",
+    fetchFarmersRecordData
+  );
 
   const contentRef = useRef(null);
 
@@ -65,6 +70,7 @@ export const DataProvider = ({ children }) => {
         yearlyRecordsData,
         barangayRecordData,
         contentRef,
+        farmersPerBarangay,
       }}
     >
       {children}

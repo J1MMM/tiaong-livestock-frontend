@@ -19,6 +19,7 @@ import DashboardLayout from "./pages/Dashboard/DashboardLayout.jsx";
 import BarangayDashB from "./pages/Dashboard/BarangayDashB.jsx";
 import LivestockDashB from "./pages/Dashboard/LivestockDashB.jsx";
 import MoratlityDashB from "./pages/Dashboard/MoratlityDashB.jsx";
+import FarmersDashB from "./pages/Dashboard/FarmersDashB.jsx";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
               <Route path="dashboard" element={<DashboardLayout />}>
                 <Route path="" element={<Dashboard />} />
                 <Route path="barangay" element={<BarangayDashB />} />
+                <Route path="farmers-per-brgy" element={<FarmersDashB />} />
                 <Route path="livestock" element={<LivestockDashB />} />
                 <Route path="mortality" element={<MoratlityDashB />} />
               </Route>

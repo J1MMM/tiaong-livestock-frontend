@@ -58,3 +58,17 @@ export const fetchBarangayRecordData = async () => {
     console.log(error);
   }
 };
+
+export const fetchFarmersRecordData = async () => {
+  try {
+    const response = await axios.get("/livestock/farmers-per-brgy");
+    console.log("response.data");
+    console.log(response.data);
+
+    const row = response.data || [];
+
+    return row;
+  } catch (error) {
+    console.log(error);
+  }
+};

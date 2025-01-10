@@ -88,6 +88,8 @@ const Dashboard = () => {
             label="Select Year"
             onChange={(e) => setYear(e.target.value)}
           >
+            <MenuItem value={yearNow - 3}>{yearNow - 3}</MenuItem>
+            <MenuItem value={yearNow - 2}>{yearNow - 2}</MenuItem>
             <MenuItem value={yearNow - 1}>{yearNow - 1}</MenuItem>
             <MenuItem value={yearNow}>{yearNow}</MenuItem>
             <MenuItem value={yearNow + 1}>{yearNow + 1}</MenuItem>

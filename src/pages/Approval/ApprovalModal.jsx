@@ -16,6 +16,7 @@ import {
   FormControl,
   InputLabel,
   Select,
+  MenuItem,
 } from "@mui/material";
 import React from "react";
 
@@ -48,7 +49,7 @@ function ApprovalModal({
       </DialogTitle>
       <DialogContent dividers>
         <Stack gap={2} sx={{ minWidth: 300 }}>
-          <TextField
+          {/* <TextField
             label="Type of Farm(CM, SC, SH)"
             variant="outlined"
             fullWidth
@@ -62,9 +63,28 @@ function ApprovalModal({
             }
             required
             disabled={disabled}
-          />
+          /> */}
 
-          <TextField
+          <FormControl fullWidth disabled={disabled} required>
+            <InputLabel>Type of Farm</InputLabel>
+            <Select
+              name="typeofFarm"
+              value={approvalFormData?.typeofFarm}
+              label="Type of Farm"
+              onChange={(e) =>
+                setApprovalFormData((prev) => ({
+                  ...prev,
+                  typeofFarm: e.target.value,
+                }))
+              }
+            >
+              <MenuItem value="CM">CM</MenuItem>
+              <MenuItem value="SC">SC</MenuItem>
+              <MenuItem value="SH">SH</MenuItem>
+            </Select>
+          </FormControl>
+
+          {/* <TextField
             disabled={disabled}
             required
             label="RSBSA Registered"
@@ -78,7 +98,25 @@ function ApprovalModal({
                 rsbsaRegistered: e.target.value,
               }))
             }
-          />
+          /> */}
+
+          <FormControl fullWidth disabled={disabled} required>
+            <InputLabel>RSBSA Registered</InputLabel>
+            <Select
+              name="rsbsaRegistered"
+              value={approvalFormData?.rsbsaRegistered}
+              label="RSBSA Registered"
+              onChange={(e) =>
+                setApprovalFormData((prev) => ({
+                  ...prev,
+                  rsbsaRegistered: e.target.value,
+                }))
+              }
+            >
+              <MenuItem value="Approved">Approved</MenuItem>
+              <MenuItem value="Rejected">Rejected</MenuItem>
+            </Select>
+          </FormControl>
           <TextField
             disabled={disabled}
             required
@@ -94,7 +132,7 @@ function ApprovalModal({
               }))
             }
           />
-          <TextField
+          {/* <TextField
             disabled={disabled}
             required
             label="Biosecurity Level (0,1,2)"
@@ -108,7 +146,26 @@ function ApprovalModal({
                 bioSecLvl: e.target.value,
               }))
             }
-          />
+          /> */}
+
+          <FormControl fullWidth disabled={disabled} required>
+            <InputLabel>Biosecurity Level</InputLabel>
+            <Select
+              name="bioSecLvl"
+              value={approvalFormData?.bioSecLvl}
+              label="Biosecurity Level"
+              onChange={(e) =>
+                setApprovalFormData((prev) => ({
+                  ...prev,
+                  bioSecLvl: e.target.value,
+                }))
+              }
+            >
+              <MenuItem value="0">0</MenuItem>
+              <MenuItem value="1">1</MenuItem>
+              <MenuItem value="2">2</MenuItem>
+            </Select>
+          </FormControl>
         </Stack>
       </DialogContent>
       <DialogActions component={"span"}>
