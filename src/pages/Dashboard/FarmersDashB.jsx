@@ -79,9 +79,7 @@ const FarmersDashB = () => {
             endAngle: 360,
             paddingAngle: 1,
             valueFormatter: (params) =>
-              `${params.value} ${
-                params.value > 1 ? "Livestocks" : "Livestocks"
-              }`,
+              `${params.value} ${params.value > 1 ? "Farmers" : "Farmer"}`,
           },
         ]}
       />
