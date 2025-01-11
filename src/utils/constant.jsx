@@ -228,10 +228,6 @@ export const FARMERS_TABLE_COLUMN = [
     editable: false,
     headerClassName: "data-grid-header",
     filterable: false,
-
-    renderCell: (params) => {
-      return dayjs(params?.rows?.birthDate).format("MM/DD/YYYY");
-    },
   },
   {
     field: "civilStatus",
