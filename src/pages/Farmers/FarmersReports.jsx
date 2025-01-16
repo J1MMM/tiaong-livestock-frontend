@@ -8,6 +8,9 @@ import TableQuickFilter from "../../components/form/table/TableQuickFilter";
 import useData from "../../hooks/useData";
 import { PrintOutlined } from "@mui/icons-material";
 import { useReactToPrint } from "react-to-print";
+import logo from "../../assets/images/favicon.svg";
+import header1 from "../../assets/images/header1.jpg";
+import header2 from "../../assets/images/header2.jpg";
 
 const CustomToolbar = () => {
   const { contentRef } = useData();
@@ -147,12 +150,20 @@ const FarmersReports = () => {
           ref={contentRef}
           style={{
             width: "100%",
+            height: "100vh",
             borderRadius: "5px",
-            padding: "15px",
             backgroundColor: "#fff",
             boxSizing: "border-box",
+            position: "relative",
           }}
         >
+          <img
+            src={header1}
+            style={{
+              width: "100%",
+              zIndex: -1,
+            }}
+          />
           <table
             width="100%"
             style={{
@@ -252,6 +263,33 @@ const FarmersReports = () => {
               ))}
             </tbody>
           </table>
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              zIndex: 1,
+              width: "100%",
+              fontFamily: "serif",
+              display: "flex",
+              justifyContent: "center",
+              paddingBottom: "64px",
+            }}
+          >
+            <p style={{ maxWidth: 600 }}>
+              2nd Flr., Tiaong Municipal Hall, Don V. Robles St., Brgy.
+              Poblacion III, Tiaong, Quezon Email: TiaongQuezon.PIO@gmail.com |
+              Facebook: Tiaong Public Information Office
+            </p>
+          </div>
+
+          <img
+            src={header2}
+            style={{
+              width: "100%",
+              position: "absolute",
+              bottom: 0,
+            }}
+          />
         </div>
       </div>
     </>

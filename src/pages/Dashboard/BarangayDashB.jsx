@@ -42,8 +42,6 @@ const barangayColors = {
 
 const BarangayDashB = () => {
   const { barangayRecordData } = useData();
-  console.log("barangayRecordData");
-  console.log(barangayRecordData);
 
   const data = barangayRecordData
     ? barangayRecordData?.map((item, index) => ({
@@ -78,6 +76,7 @@ const BarangayDashB = () => {
             startAngle: -180,
             endAngle: 360,
             paddingAngle: 1,
+
             valueFormatter: (params) =>
               `${params.value} ${
                 params.value > 1 ? "Livestocks" : "Livestocks"
